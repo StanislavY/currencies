@@ -19,7 +19,7 @@ object GlobalConstAndVars {
     var DATE_OF_ORDER=""
     var GLOBAL_LIST= DEFAULT_lIST
     var LIST_OF_ITEMS_FOR_FIRST_AND_SECOND_SCREENS:List<ListItem> = mutableListOf()
-    const val DEFAULT_VALUE_FOR_GENERATED_LIST=""
+    const val DEFAULT_VALUE_FOR_GENERATED_LIST="0"
     var LIST_OF_FINISHED_ORDERS = listOf<ServerResponseData>()
     const val MARKER_OF_FINISHED_ORDER="1"
     var WORKED_OUT:String=""
