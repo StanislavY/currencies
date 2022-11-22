@@ -5,6 +5,7 @@ import com.example.order.datasource.Server.ServerResponseData
 
 object GlobalConstAndVars {
     const val DEFAULT_VALUE: String = "0"
+    var PAIRS_lIST=""
     var listItemFromDb:List<ListItem> = mutableListOf()
     var LIST_KEY: String = DEFAULT_VALUE
     var count: Int = 0

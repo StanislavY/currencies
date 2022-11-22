@@ -217,7 +217,7 @@ class MainFragment : Fragment() {
         } else {
             adapter.setListItem( viewModel.convertArrayListItemToMainList(SearchItemStorage.list).filter {
                  it.name.contains(s.toString(), true)
-            } )
+            }.filterNot { it.name.startsWith(s.toString(),true) } )
         }
 
     }
@@ -281,7 +281,15 @@ class MainFragment : Fragment() {
 
     }
     private fun hideUnnecessaryFields(){
-        if (count!= KEY_FOR_INFLATE_MAIN_LIST) {
+        binding.inputEditTextDate.isGone=true
+        binding.bottomBarMain.isGone=true
+        binding.inputLayout.isGone=false
+        binding.inputEditTextWorkedOut.isGone=true
+        binding.inputDateLayout.endIconMode=TextInputLayout.END_ICON_NONE
+        val params = binding.mainFragmentRecyclerView.layoutParams as ConstraintLayout.LayoutParams
+        params.topToBottom=binding.inputLayout.id
+        params.matchConstraintPercentHeight= 0.89F
+       /* if (count!= KEY_FOR_INFLATE_MAIN_LIST) {
             //второй экран
             binding.inputEditTextDate.isGone=true
             binding.bottomBarMain.isGone=true
@@ -299,7 +307,7 @@ class MainFragment : Fragment() {
             binding.bottomBarMain.isGone=false
             binding.inputEditTextWorkedOut.isGone=false
 
-        }
+        }*/
     }
     private fun goToSaveFragment(
         manager: FragmentManager?,

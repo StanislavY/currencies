@@ -27,6 +27,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
         val dataFrom1CResuldEntity:List<ResultEntity>
 
         //TODO() хардкод ниже - убрать
+/*
 
         val quality:MutableList<ListItem> = mutableListOf(
             ListItem("ДоплатаЗаКачество","Доплата за качество 0%","0", GlobalConstAndVars.DEFAULT_VALUE_FOR_GENERATED_LIST),
@@ -58,6 +59,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
             ListItem("Ученические","Ученические30%","30", GlobalConstAndVars.DEFAULT_VALUE_FOR_GENERATED_LIST)
 
         )
+*/
 
 
         if (GlobalConstAndVars.LIST_KEY != "0") {
@@ -68,8 +70,8 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
             if (GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST == 0) {
                 dataFrom1C = localRepository1C.getAllDataDB1CEntity()
                 GlobalConstAndVars.listItemFromDb=dataFrom1C
-                startList=makeStartList(dataFrom1C+hoursWorked+
-                        quality+difficult+refill+weekends+steepSlope+shortRun+student)+dataFrom1C+hoursWorked+ quality+difficult+refill+weekends+steepSlope+shortRun+student
+                startList=makeStartList(dataFrom1C/*+hoursWorked+
+                        quality+difficult+refill+weekends+steepSlope+shortRun+student*/)+dataFrom1C/*+hoursWorked+ quality+difficult+refill+weekends+steepSlope+shortRun+student*/
                 GlobalConstAndVars.GLOBAL_LIST=startList
 
             }

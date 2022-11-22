@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.SearchItem
 import com.example.order.core.GlobalConstAndVars
 import com.example.order.app.domain.model.ListItem
+import com.example.order.app.domain.model.SearchItemStorage.Companion.list
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
 import com.example.order.datasource.Server.ServerResponseData
@@ -11,23 +12,29 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 open class Converters : ViewModel() {
-    fun converterFromResponseServerToMainList(serverResponse: List<ServerResponseData?>): List<ListItem> {
+
+    fun converterFromStringToMutableListItem(stringToConvert:String):List<ListItem>    {
+       return stringToConvert.split(",").toList().map{ListItem("","",it,"")}
+
+    }
+    fun converterFromResponseServerToMainList(serverResponse: ServerResponseData?): List<ListItem> {
         val convertedListItem: MutableList<ListItem> = mutableListOf()
 
-        for (list in serverResponse) {
-            if (list != null) {
-                convertedListItem.add(convertMainListFromStrings(list.id1,list.id2,list.name,list.value))
-            }
 
-        }
+        serverResponse?.id1?.map{ ListItem(it,"Список валют","","")}
+
+
+
+
+
 
         return convertedListItem
 
     }
-    private fun convertMainListFromStrings (id1:String?, id2:String?, name:String?,value:String?):ListItem{
+   /* private fun convertMainListFromStrings (id1:ServerResponseData):ListItem{
         return ListItem(id1!!,id2!!,name!!, value!!)
 
-    }
+    }*/
     fun convertMainListToEntityDB1C(id1:String, id2:String, name: String, value:String): DatabaseFrom1CEntity {
         val databaseFrom1CEntity= DatabaseFrom1CEntity("","","","")
         databaseFrom1CEntity.id1=id1
