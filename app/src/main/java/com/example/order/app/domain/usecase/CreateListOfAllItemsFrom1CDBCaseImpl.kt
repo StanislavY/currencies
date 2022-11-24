@@ -147,9 +147,9 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
     private fun swapValuesForStartListCreating (id1:String, id2:String, name: String, value:String):ListItem{
         val objectForChange = ListItem(id1,id2,name,value)
 
-        objectForChange.name=objectForChange.id1
+      /*  objectForChange.name=objectForChange.id1
         objectForChange.id2=objectForChange.id1
-        objectForChange.id1="0"
+        objectForChange.id1="0"*/
         return objectForChange
     }
 

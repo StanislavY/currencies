@@ -216,11 +216,14 @@ class MainFragment : Fragment() {
             adapter.setListItem(viewModel.convertArrayListItemToMainList(SearchItemStorage.list))
         } else {
             adapter.setListItem( viewModel.convertArrayListItemToMainList(SearchItemStorage.list).filter {
-                 it.name.contains(s.toString(), true)
-            }.filterNot { it.name.startsWith(s.toString(),true) } )
+                it.id2.contains(s.toString(), true)
+            } )
+
+            }
+
         }
 
-    }
+
 
     private fun renderList(data: AppState) {
         when (data) {

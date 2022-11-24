@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.order.core.GlobalConstAndVars
 import com.example.order.app.domain.model.ListItem
+import com.example.order.app.domain.model.SearchItemStorage.Companion.list
 import com.example.order.databinding.MainItemBinding
 
 class MainFragmentAdapter:RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
@@ -46,7 +47,7 @@ class MainFragmentAdapter:RecyclerView.Adapter<MainFragmentAdapter.MainViewHolde
         @SuppressLint("SetTextI18n")
         fun bind(listItem: ListItem) {
 
-            val textForItem:String = if (GlobalConstAndVars.LIST_KEY == "0"&&GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST==0) {
+            val textForItem:String = listItem.id1+"/"+listItem.id2+" "+listItem.value/*if (GlobalConstAndVars.LIST_KEY == "0"&&GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST==0) {
 
 
                     listItem.name + ": " + listItem.value
@@ -65,14 +66,20 @@ class MainFragmentAdapter:RecyclerView.Adapter<MainFragmentAdapter.MainViewHolde
             if (GlobalConstAndVars.LIST_KEY == "0"&&GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST==1) {
                 listItem.id2
 
-            }
+            }*/
 
 
             binding.apply {
 
-                mainItemRecyclerTextView.text = textForItem
+               currensieName.text = listItem.id1
+                country.text="Россия"
+                currencyCourse.text="1 ${listItem.id2} = ${listItem.value} ${listItem.id1}"
 
-                binding.mainItemRecyclerTextView.setOnClickListener {
+
+
+
+
+                binding.currensieName.setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(listItem)
                 }
             }

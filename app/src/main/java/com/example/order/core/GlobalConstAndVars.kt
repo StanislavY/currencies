@@ -4,6 +4,9 @@ import com.example.order.app.domain.model.ListItem
 import com.example.order.datasource.Server.ServerResponseData
 
 object GlobalConstAndVars {
+    const val FIRST_INDEX_OF_SECOND_CURRENCY=3
+    const val FIRST_INDEX_OF_CROSSCOUSE=6
+
     const val DEFAULT_VALUE: String = "0"
     var PAIRS_lIST=""
     var listItemFromDb:List<ListItem> = mutableListOf()

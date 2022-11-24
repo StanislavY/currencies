@@ -5,44 +5,131 @@
     android:id="@+id/itemContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/main_margin"
+    android:layout_marginEnd="@dimen/main_margin"
+    android:backgroundTint="#80E8E5E5"
 
 
         >
-        <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/label_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/currenc"
+        app:layout_constraintBottom_toBottomOf="@id/currenc"
+        app:layout_constraintHorizontal_weight="1"
 
-            android:id="@+id/mainItemRecyclerTextView"
+
+
+        android:layout_marginTop="@dimen/main_margin"
+        app:cardCornerRadius="@dimen/cardview_compat_inset_shadow">
+
+
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+
+                android:id="@+id/currensie_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:textSize="@dimen/currency_name_text_size"
+                android:gravity="center_vertical"
+
+
+
+
+
+                tools:text="RUB"
+
+                >
+
+            </com.google.android.material.textview.MaterialTextView>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/currenc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/label_id"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_weight="4"
+        android:layout_marginTop="@dimen/main_margin"
+
+
+
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+          <androidx.appcompat.widget.AppCompatImageButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/ic_baseline_star_border_24"
+              android:layout_marginTop="10dp"
+              android:layout_gravity="end|center"
+              android:backgroundTint="@color/white">
+
+
+          </androidx.appcompat.widget.AppCompatImageButton>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:textSize="@dimen/country_text_size"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/main_margin"
 
 
-
-
-
-            tools:text="Работаааааааааааааааааааааааааааааааааааааа
-"
-            android:textSize="@dimen/font_size_main">
-
-        </androidx.appcompat.widget.AppCompatTextView>
-      <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainItemRecyclerTextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-
+            tools:text="Россия"
             >
 
-        </View>
+        </com.google.android.material.textview.MaterialTextView>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/currency_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+
+            android:textColor="#80514F4F"
+            android:layout_marginStart="@dimen/main_margin"
+
+
+            tools:text="1 RUB = 67 USD"
+            >
+
+        </com.google.android.material.textview.MaterialTextView>
+        </LinearLayout>
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 
 

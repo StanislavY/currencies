@@ -15,10 +15,10 @@ class CreateListsForFirstAndSecondScreensCaseImpl: CreateListsForFirstAndSecondS
         for (mainList in listFrom1C) {
             /*if (mainList.id1 == key) {*/
                tempListItem.add(mainList)
-                if (key == GlobalConstAndVars.DEFAULT_VALUE) {
+                /*if (key == GlobalConstAndVars.DEFAULT_VALUE) {
                     mainList.value=""
 
-                }
+                }*/
                                }
        /* }*/
               /*  for (mainList in tempListItem) {

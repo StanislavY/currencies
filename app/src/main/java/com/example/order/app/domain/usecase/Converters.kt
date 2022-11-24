@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.SearchItem
 import com.example.order.core.GlobalConstAndVars
 import com.example.order.app.domain.model.ListItem
-import com.example.order.app.domain.model.SearchItemStorage.Companion.list
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
 import com.example.order.datasource.Server.ServerResponseData
@@ -14,7 +13,18 @@ import kotlin.collections.ArrayList
 open class Converters : ViewModel() {
 
     fun converterFromStringToMutableListItem(stringToConvert:String):List<ListItem>    {
-       return stringToConvert.split(",").toList().map{ListItem("","",it,"")}
+       return stringToConvert.
+       removeRange(0..28).
+       replace(" ","").
+       replace("=","").
+       dropLast(2).
+       split(",").toList().
+       map{ListItem(
+           it.removeRange(GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY..it.lastIndex),
+           it.removeRange(GlobalConstAndVars.FIRST_INDEX_OF_CROSSCOUSE..it.lastIndex).
+           removeRange(0..GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY-1),
+           "",
+           it.removeRange(0..5))}
 
     }
     fun converterFromResponseServerToMainList(serverResponse: ServerResponseData?): List<ListItem> {
