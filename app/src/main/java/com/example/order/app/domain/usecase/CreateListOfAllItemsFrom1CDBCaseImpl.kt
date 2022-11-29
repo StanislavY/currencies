@@ -1,5 +1,8 @@
 package com.example.order.app.domain.usecase
 
+import android.content.Context
+import androidx.core.content.ContextCompat
+import com.example.order.R
 import com.example.order.core.GlobalConstAndVars
 
 import com.example.order.app.domain.model.ListItem
@@ -7,10 +10,13 @@ import com.example.order.repository.LocalRepository
 import com.example.order.repository.LocalRepositoryImpl
 import com.example.order.core.App
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
+import kotlinx.coroutines.NonDisposableHandle.parent
+import kotlinx.coroutines.withContext
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
+class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
+
 
 
 
@@ -22,6 +28,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
 
     // саделать маски для имен в главном списке
     override fun getListForChoice(): List<ListItem> {
+
         var startList: List<ListItem> = listOf()
         val dataFrom1C: List<ListItem>
         val dataFrom1CResuldEntity:List<ResultEntity>
@@ -70,12 +77,16 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
             if (GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST == 0) {
                 dataFrom1C = localRepository1C.getAllDataDB1CEntity()
                 GlobalConstAndVars.listItemFromDb=dataFrom1C
-                startList=makeStartList(dataFrom1C/*+hoursWorked+
-                        quality+difficult+refill+weekends+steepSlope+shortRun+student*/)+dataFrom1C/*+hoursWorked+ quality+difficult+refill+weekends+steepSlope+shortRun+student*/
+
+                startList=fillFlagsAndCountriesInGlobalList(dataFrom1C)
+
+
+
                 GlobalConstAndVars.GLOBAL_LIST=startList
 
+
             }
-            else{
+           /* else{
                dataFrom1C=converters.convertEntityResultToMainListForOrederList(localRepository1C.getAllDatafromDBResult())
                 GlobalConstAndVars.listItemFromDb=dataFrom1C
                 startList=createOrdersList(dataFrom1C)+dataFrom1C
@@ -83,7 +94,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
 
 
 
-            }
+            }*/
 
 
 
@@ -107,6 +118,11 @@ class CreateListOfAllItemsFrom1CDBCaseImpl: CreateListOfAllItemsFrom1CDBCase {
 
 
         return startList
+    }
+    private fun fillFlagsAndCountriesInGlobalList(globalList:List<ListItem>):List<ListItem>{
+       globalList.forEach {gl-> gl.name=GlobalConstAndVars.countriesList.firstOrNull { it.id1==gl.id2 }?.value ?: "0"
+       }
+        return globalList
     }
 
     private fun createOrdersList(listItem: List<ListItem>): List<ListItem> {

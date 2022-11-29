@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.order.R
 import com.example.order.viewModel.LoadingViewModel
 import com.example.order.app.domain.usecase.AppState
+import com.example.order.core.GlobalConstAndVars
 import com.example.order.databinding.LoadingFragmentBinding
 import kotlinx.coroutines.*
 
@@ -50,6 +51,9 @@ class LoadingFragment:Fragment() {
             viewModel.getPairsList()
             viewModel.getCrossCourses()
             viewModel.getGlobalLIst()
+
+
+
         }
 
 
@@ -103,6 +107,7 @@ class LoadingFragment:Fragment() {
         fun newInstance() = LoadingFragment()
 
         }
+
     }
 
 

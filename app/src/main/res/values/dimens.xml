@@ -6,4 +6,7 @@
     <dimen name="country_text_size">25sp</dimen>
     <dimen name="list_item_height">70dp</dimen>
     <dimen name="currency_name_text_size">25sp</dimen>
+    <dimen name="cur_size_text">20sp</dimen>
+    <dimen name="padding_inside_views">3dp</dimen>
+    <dimen name="margin_between_rows">3dp</dimen>
 </resources>

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment"
     android:layout_above="@id/bottom_bar_main"
+    android:backgroundTint="#80424040"
 
     >
 

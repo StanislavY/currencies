@@ -1,6 +1,8 @@
 package com.example.order.core
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -9,14 +11,24 @@ import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CDAO
 import java.lang.IllegalStateException
 
 class App: Application() {
+
     override fun onCreate() {
         super.onCreate()
         appInstance = this
 
+
     }
 
     companion object {
-        private var appInstance: App? = null
+
+
+
+
+       lateinit var appInstance: App
+        fun getContext(): Context? {
+            return appInstance.applicationContext
+        }
+
         private var db1C: DatabaseFrom1C? = null
 
         private val DB1C_NAME = GlobalConstAndVars.DATABASE1C_NAME

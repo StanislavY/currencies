@@ -45,6 +45,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,6 +60,9 @@ class MainFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
+
         createCalendar()
         setWorkedOutFieldBehavior()
         /*setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))*/
@@ -69,6 +73,7 @@ class MainFragment : Fragment() {
                 chooseScreenToShow(listItem)
             }
         })
+
         binding.mainFragmentRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.mainFragmentRecyclerView.adapter = adapter
         viewModel.processAppState().observe(viewLifecycleOwner, { renderList(it) })

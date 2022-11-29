@@ -3,6 +3,7 @@ package com.example.order.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.order.R
 
 import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.usecase.*
@@ -140,6 +141,7 @@ class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = Mutable
         createGlobalListCase.getListForChoice()
 
     }
+
 
 
 
