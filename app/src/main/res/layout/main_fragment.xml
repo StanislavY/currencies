@@ -124,8 +124,9 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:paddingTop="@dimen/recycler_padding"
+            android:paddingStart="@dimen/recycler_padding"
+            android:paddingEnd="@dimen/recycler_padding"
             app:layout_constraintVertical_chainStyle="packed"
 
             app:layout_constraintHeight_default="percent"

@@ -70,7 +70,7 @@ class MainFragment : Fragment() {
         hideUnnecessaryFields()
          adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
-                chooseScreenToShow(listItem)
+
             }
         })
 
@@ -112,7 +112,7 @@ class MainFragment : Fragment() {
         if (item.itemId == R.id.order_list) {
 
             val manager = activity?.supportFragmentManager
-            val listItem=ListItem("","","","")
+            val listItem=ListItem("","","","","","","","")
             showOrHideOrdersList()
 
            makeDetails(manager,listItem)
@@ -126,12 +126,12 @@ class MainFragment : Fragment() {
     private fun showOrHideOrdersList() {
         if (GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST == 0) {
             GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST=1
-            viewModel.getOrdersListFromDBResult()
+            /*viewModel.getOrdersListFromDBResult()*/
             newInstance()
 
         }
         else { GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST=0
-            viewModel.getGlobalLIst()
+          /*  viewModel.getGlobalLIst()*/
             newInstance()
         }
     }
@@ -184,7 +184,7 @@ class MainFragment : Fragment() {
                 GlobalConstAndVars.WORKED_OUT,
                 GlobalConstAndVars.WORKED_OUT,
                 GlobalConstAndVars.DEFAULT_VALUE_FOR_GENERATED_LIST
-            ) // убрать хардкод из этой строки
+                ,"","","","") // убрать хардкод из этой строки
             viewModel.rememberListOfChosenItemsVM(worked)
         }
     }
@@ -195,8 +195,7 @@ class MainFragment : Fragment() {
                 "date",
                 "date",
                 GlobalConstAndVars.DATE_OF_ORDER,
-                ""
-            ) // убрать хардкод из этой строки
+                "","","","","Ариари")//брать хардкод из этой строки
             viewModel.rememberListOfChosenItemsVM(dateFromCalendar)
         }
     }
@@ -221,8 +220,15 @@ class MainFragment : Fragment() {
             adapter.setListItem(viewModel.convertArrayListItemToMainList(SearchItemStorage.list))
         } else {
             adapter.setListItem( viewModel.convertArrayListItemToMainList(SearchItemStorage.list).filter {
+
                 it.id2.contains(s.toString(), true)
-            } )
+                        ||it.id1.contains(s.toString(), true)
+                        ||it.countryFirstCur.contains(s.toString(),true )
+                        ||it.countrySecondCur.contains(s.toString(),true )
+                        ||it.curName.contains(s.toString(),true )
+            }
+            )
+
 
             }
 
@@ -297,6 +303,8 @@ class MainFragment : Fragment() {
         val params = binding.mainFragmentRecyclerView.layoutParams as ConstraintLayout.LayoutParams
         params.topToBottom=binding.inputLayout.id
         params.matchConstraintPercentHeight= 0.89F
+        binding.bottomBarMain.isGone=false
+
        /* if (count!= KEY_FOR_INFLATE_MAIN_LIST) {
             //второй экран
             binding.inputEditTextDate.isGone=true

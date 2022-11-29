@@ -7,7 +7,16 @@ data class SearchItem (
    val id1:Spannable,
    val id2:Spannable,
    val name: Spannable,
-   val value:Spannable
+   val value:Spannable,
+   var secondCurFlag:Spannable,
+   var countryFirstCur:Spannable,
+   var countrySecondCur:Spannable,
+   var curName:Spannable
+
 ) {
-    constructor(id1:String, id2:String, name: String,value:String) : this(SpannableString(id1), SpannableString(id2), SpannableString(name),SpannableString(value))
+    constructor(id1:String, id2:String, name: String,value:String, secondCurFlag:String,
+                countryFirstCur:String,
+               countrySecondCur:String,
+                curName:String) : this(SpannableString(id1), SpannableString(id2), SpannableString(name),SpannableString(value),
+        SpannableString(secondCurFlag),SpannableString(countryFirstCur),SpannableString(countrySecondCur),SpannableString(curName),)
 }

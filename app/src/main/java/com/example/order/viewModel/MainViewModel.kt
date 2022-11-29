@@ -128,10 +128,10 @@ open class MainViewModel(
         }
 
     }
-    fun getOrdersListFromDBResult(){
+   suspend fun getOrdersListFromDBResult(){
         createListOfOrdersAndStartListItem.getListForChoice()
     }
-    fun getGlobalLIst(){
+  suspend  fun getGlobalLIst(){
        createListOfOrdersAndStartListItem.getListForChoice()
 
     }

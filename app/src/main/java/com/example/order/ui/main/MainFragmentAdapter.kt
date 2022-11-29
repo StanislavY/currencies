@@ -1,22 +1,13 @@
 package com.example.order.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.order.R
-import com.example.order.core.GlobalConstAndVars
 import com.example.order.app.domain.model.ListItem
-import com.example.order.app.domain.model.SearchItemStorage.Companion.list
 import com.example.order.core.App
-import com.example.order.databinding.MainFragmentBinding
 import com.example.order.databinding.MainItemBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
-import java.net.URI
 
 class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
     private var appContext= App.getContext()
@@ -90,21 +81,14 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
 
             binding.apply {
 
-                if (listItem.name == "0") {
-                    listItem.name= R.drawable.ad333.toString()
-
-                } else {
-                        listItem.name =appContext?.resources?.getIdentifier(listItem.
-                        name, "drawable", appContext?.packageName).toString()
-
-                }
-               flagOfFirstCur.setImageResource(
-                   listItem.
-                   name.toInt())
-
-                ticker.text="1 ${listItem.id1}"
+                listItem.name=writeFileIDtoList(listItem.name)
+                listItem.secondCurFlag=writeFileIDtoList(listItem.secondCurFlag)
+                flagOfFirstCur.setImageResource(listItem.name.toInt())
+                tickerFirstCur.text="1 ${listItem.id1}"
                 quantitySecondCur.text=listItem.value
                 tickerSecondCur.text=listItem.id2
+                flagOfSecondCur.setImageResource(listItem.secondCurFlag.toInt())
+
 
 
 
@@ -120,11 +104,23 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
 
     }
 
-   /* private fun getFlag( parent: MainFragmentBinding,mDrawableName:String):Int{
+    private fun writeFileIDtoList(listItem: String):String {
+        val fileID: String = if (listItem == "0") {
+            R.drawable.ad333.toString()
+
+        } else {
+            appContext?.resources?.getIdentifier(listItem,"drawable",
+                appContext?.packageName).toString()
+
+        }
+        return fileID
+    }
+
+    /* private fun getFlag( parent: MainFragmentBinding,mDrawableName:String):Int{
 
 
-        resID = parent.context.resources.getIdentifier(mDrawableName, "drawable",parent.context.packageName)
+         resID = parent.context.resources.getIdentifier(mDrawableName, "drawable",parent.context.packageName)
 
-       return resID
-    }*/
+        return resID
+     }*/
 }

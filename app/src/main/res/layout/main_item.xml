@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/quantity"
                 app:layout_constraintEnd_toStartOf="@id/equals"
-                app:layout_constraintBottom_toTopOf="@id/ticker"
+                app:layout_constraintBottom_toTopOf="@id/ticker_first_cur"
 
 
 
@@ -76,7 +76,7 @@
 
             </com.google.android.material.imageview.ShapeableImageView>
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/ticker"
+                android:id="@+id/ticker_first_cur"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/flag_of_first_cur"
@@ -101,6 +101,7 @@
                 android:textAlignment="center"
                 android:src="@drawable/ic_baseline_drag_handle_24"
                 android:padding="@dimen/padding_inside_views"
+                android:layout_marginBottom="@dimen/padding_bottom_for_text"
 
 
                 android:textSize="60sp"
@@ -125,6 +126,7 @@
                 android:textSize="@dimen/cur_size_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_weight="5"
+                android:layout_marginBottom="@dimen/padding_bottom_for_text"
                 >
 
 
@@ -351,7 +353,21 @@
     </androidx.cardview.widget.CardView>
 -->
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_id"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+
+        >
+
+    </View>
 
 
 

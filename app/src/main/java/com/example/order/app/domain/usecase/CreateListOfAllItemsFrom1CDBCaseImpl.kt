@@ -1,8 +1,5 @@
 package com.example.order.app.domain.usecase
 
-import android.content.Context
-import androidx.core.content.ContextCompat
-import com.example.order.R
 import com.example.order.core.GlobalConstAndVars
 
 import com.example.order.app.domain.model.ListItem
@@ -10,8 +7,9 @@ import com.example.order.repository.LocalRepository
 import com.example.order.repository.LocalRepositoryImpl
 import com.example.order.core.App
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
-import kotlinx.coroutines.NonDisposableHandle.parent
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -26,8 +24,12 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
        GlobalConstAndVars.STEP_FOR_WORKED_HOURS,"Отработано часов")
     private val converters:Converters= Converters()
 
+
+
+
     // саделать маски для имен в главном списке
-    override fun getListForChoice(): List<ListItem> {
+    override suspend fun getListForChoice(): List<ListItem> {
+
 
         var startList: List<ListItem> = listOf()
         val dataFrom1C: List<ListItem>
@@ -119,10 +121,22 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
 
         return startList
     }
-    private fun fillFlagsAndCountriesInGlobalList(globalList:List<ListItem>):List<ListItem>{
-       globalList.forEach {gl-> gl.name=GlobalConstAndVars.countriesList.firstOrNull { it.id1==gl.id2 }?.value ?: "0"
+    private fun fillFlagsAndCountriesInGlobalList(listFromDB:List<ListItem>):List<ListItem>{
+       listFromDB.forEach { gl->gl.apply {
+           with(GlobalConstAndVars.countriesList){
+               name=firstOrNull { it.id1==gl.id1 }?.value ?: "0"
+               secondCurFlag=firstOrNull { it.id1==gl.id2 }?.value ?: "0"
+               countryFirstCur=firstOrNull { it.id1==gl.id1 }?.id2 ?: "0"
+               countrySecondCur=firstOrNull { it.id1==gl.id2 }?.id2 ?: "0"
+               curName=firstOrNull { it.id1==gl.curName }?.id2 ?: "0"
+
+
+           }
+           }
+
+
        }
-        return globalList
+        return listFromDB
     }
 
     private fun createOrdersList(listItem: List<ListItem>): List<ListItem> {
@@ -161,7 +175,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
     }
 
     private fun swapValuesForStartListCreating (id1:String, id2:String, name: String, value:String):ListItem{
-        val objectForChange = ListItem(id1,id2,name,value)
+        val objectForChange = ListItem(id1,id2,name,value,"","","","Ариари")
 
       /*  objectForChange.name=objectForChange.id1
         objectForChange.id2=objectForChange.id1
@@ -177,7 +191,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
 
     ): ListItem {
 
-        return ListItem("0", id1, name, value)
+        return ListItem("0", id1, name, value,"","","","Ариари")
     }
     private fun makeListOfWork(numberOfValues:Int, step:Double, nameOfField:String):MutableList<ListItem>{
         val workListItem: MutableList<ListItem> = mutableListOf()
@@ -192,7 +206,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
                         roundedNumber.format(valueForWork).toString(),
                         roundedNumber.format(valueForWork).toString(),
                         GlobalConstAndVars.DEFAULT_VALUE_FOR_GENERATED_LIST
-                    )
+                        ,"","","","Ариари")
                 )
             }
 

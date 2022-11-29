@@ -10,10 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.order.R
-import com.example.order.viewModel.LoadingViewModel
 import com.example.order.app.domain.usecase.AppState
-import com.example.order.core.GlobalConstAndVars
 import com.example.order.databinding.LoadingFragmentBinding
+import com.example.order.viewModel.LoadingViewModel
 import kotlinx.coroutines.*
 
 class LoadingFragment:Fragment() {
@@ -46,26 +45,50 @@ class LoadingFragment:Fragment() {
         binding.loadinglayout.show()
         viewModel.getDataFromServerForDB().observe(viewLifecycleOwner, { renderData(it) })
 
-        loadingFragmentCoroutineScope.launch {
 
+
+
+      /*  loadingFragmentCoroutineScope.launch {
+
+
+
+
+
+        }*/
+        runBlocking { loadingFragmentCoroutineScope.launch {
             viewModel.getPairsList()
             viewModel.getCrossCourses()
-            viewModel.getGlobalLIst()
 
+             }
 
 
         }
 
 
+
+
+
+
     }
+    /*fun main(args: Array<String>) = runBlocking { //(1)
+        val job = launch { //(2)
+            viewModel.getPairsList()
+            viewModel.getCrossCourses()
+            viewModel.getGlobalLIst()
+        }
+
+        job.join()
+    }
+    >> prints "The result: 5"*/
 
 
 
-    private fun renderData(data: AppState) {
+   private fun renderData(data: AppState) {
         when (data) {
             is AppState.Success -> {
                 viewModel.clearDB()
                 viewModel.putDataFromServer1CToLocalDatabase(data.listItem)
+                getGlobalList()
                 Toast.makeText(context,"Котировки загружены успешно",Toast.LENGTH_SHORT).apply {
                     setGravity(Gravity.BOTTOM,0,250)
                     show()
@@ -79,6 +102,7 @@ class LoadingFragment:Fragment() {
             }
             is AppState.Error -> {
                 binding.loadinglayout.show()
+                getGlobalList()
                 Toast.makeText(context,"Нет доступа к серверу, загруженные последние доступные котировки",Toast.LENGTH_SHORT).apply {
                     setGravity(Gravity.BOTTOM,0,250)
                     show()
@@ -89,6 +113,11 @@ class LoadingFragment:Fragment() {
             }
         }
     }
+    private fun getGlobalList() = runBlocking { val job = launch {viewModel.getGlobalLIst()  }
+        job.join()
+
+    }
+
 
     private fun goToMainList(
         manager: FragmentManager?,

@@ -9,4 +9,6 @@
     <dimen name="cur_size_text">20sp</dimen>
     <dimen name="padding_inside_views">3dp</dimen>
     <dimen name="margin_between_rows">3dp</dimen>
+    <dimen name="padding_bottom_for_text">10dp</dimen>
+    <dimen name="recycler_padding">10dp</dimen>
 </resources>
