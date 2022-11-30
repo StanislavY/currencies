@@ -7,9 +7,6 @@ import com.example.order.repository.LocalRepository
 import com.example.order.repository.LocalRepositoryImpl
 import com.example.order.core.App
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -19,6 +16,8 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
 
 
     private val localRepository1C: LocalRepository = LocalRepositoryImpl(App.get1CDAO())
+
+
     private val hoursWorked=makeListOfWork(
        GlobalConstAndVars.NUMBERS_OF_VALUES_FOR_WORKED_HOURS,
        GlobalConstAndVars.STEP_FOR_WORKED_HOURS,"Отработано часов")
@@ -128,14 +127,30 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
                secondCurFlag=firstOrNull { it.id1==gl.id2 }?.value ?: "0"
                countryFirstCur=firstOrNull { it.id1==gl.id1 }?.id2 ?: "0"
                countrySecondCur=firstOrNull { it.id1==gl.id2 }?.id2 ?: "0"
-               curName=firstOrNull { it.id1==gl.curName }?.id2 ?: "0"
+               favorite=firstOrNull { it.id1==gl.favorite }?.id2 ?: "0"
 
 
            }
+
            }
+           }
+        val x= converters.convertEntityResultToMainList(
+            localRepository1C.getAllDatafromDBResult())
+
+        listFromDB.forEach { gl->gl.apply {
+            with(
+                converters.convertEntityResultToMainList(
+                    localRepository1C.getAllDatafromDBResult())){
+              favorite=
+                  firstOrNull { it.id1==gl.id1&&it.id2==gl.id2 }?.favorite ?: "0"
 
 
-       }
+            }
+
+
+        }
+        }
+
         return listFromDB
     }
 

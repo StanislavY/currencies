@@ -25,6 +25,7 @@ import com.example.order.viewModel.MainViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.main_item.view.*
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -70,6 +71,10 @@ class MainFragment : Fragment() {
         hideUnnecessaryFields()
          adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
+                viewModel.handleFavoriteButtonClick(listItem)
+                viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
+                adapter.setListItem(GlobalConstAndVars.GLOBAL_LIST)
+
 
             }
         })
@@ -81,6 +86,11 @@ class MainFragment : Fragment() {
         launchSearchBarListener()
         isEditingWorkedOutFieldFinished()    
 
+    }
+
+    private fun favoriteButtonClicked(listItem:ListItem) {
+        viewModel.handleFavoriteButtonClick(listItem)
+        checkFieldsCompleteness()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -102,7 +112,7 @@ class MainFragment : Fragment() {
         if (item.itemId == R.id.send_main_bottom_bar) {
             rememberDate()
             rememberWorkedOutAmount()
-            checkFieldsCompleteness()
+
             goToSaveFragment(activity?.supportFragmentManager)
         }
         if (item.itemId == R.id.refresh) {
@@ -138,23 +148,9 @@ class MainFragment : Fragment() {
 
 
     private fun checkFieldsCompleteness() {
-        if (viewModel.checkCompleteness(
-                GlobalConstAndVars.LIST_OF_ITEMS_FOR_FIRST_AND_SECOND_SCREENS,
-                GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS,
-                GlobalConstAndVars.DATE_OF_ORDER,
-                GlobalConstAndVars.WORKED_OUT
-            ) == "Данные наряда заполнены не полностью"
-        ) {
-            toast("Данные наряда заполнены не полностью")
-        } else {
+
             viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
-            toast("данные записаны успешно")
-            val workedOut = binding.inputEditTextWorkedOut
-            sendDataToServer()
-            setDefaultValuesForTheGlobalVars(workedOut)
 
-
-        }
     }
 
     private fun setDefaultValuesForTheGlobalVars(workedOut: TextInputEditText) {
@@ -225,7 +221,7 @@ class MainFragment : Fragment() {
                         ||it.id1.contains(s.toString(), true)
                         ||it.countryFirstCur.contains(s.toString(),true )
                         ||it.countrySecondCur.contains(s.toString(),true )
-                        ||it.curName.contains(s.toString(),true )
+                        ||it.favorite.contains(s.toString(),true )
             }
             )
 

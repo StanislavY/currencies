@@ -1,6 +1,5 @@
 package com.example.order.app.domain.usecase
 
-import android.text.Spannable
 import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.SearchItem
 import com.example.order.core.GlobalConstAndVars
@@ -19,7 +18,7 @@ open class Converters : ViewModel() {
             ListItem(
                 it.removeRange(GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY..it.lastIndex),
                 it.removeRange(GlobalConstAndVars.FIRST_INDEX_OF_CROSSCOUSE..it.lastIndex)
-                    .removeRange(0..GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY - 1),
+                    .removeRange(0 until GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY),
                 "",
                 it.removeRange(0..5), "", "", "", "")
         }
@@ -49,13 +48,28 @@ open class Converters : ViewModel() {
         id1: String,
         id2: String,
         name: String,
-        value: String
+        value: String,
+        secondCurFlag:String,
+        countryFirstCur:String,
+        countrySecondCur:String,
+        favorite:String
+
+
     ): DatabaseFrom1CEntity {
-        val databaseFrom1CEntity = DatabaseFrom1CEntity("", "", "", "", "", "", "", "")
+        val databaseFrom1CEntity =
+            DatabaseFrom1CEntity("", "", "", "", "", "", "", "")
+
         databaseFrom1CEntity.id1 = id1
         databaseFrom1CEntity.id2 = id2
         databaseFrom1CEntity.name = name
         databaseFrom1CEntity.value = value
+        databaseFrom1CEntity.secondCurFlag=secondCurFlag
+        databaseFrom1CEntity.countryFirstCur=countryFirstCur
+        databaseFrom1CEntity.countrySecondCur=countrySecondCur
+        databaseFrom1CEntity.favorite=favorite
+
+
+
         return databaseFrom1CEntity
     }
 
@@ -69,13 +83,13 @@ open class Converters : ViewModel() {
     }
 
     fun convertEntityResultToMainList(entityList: List<ResultEntity>): List<ListItem> {
-        return entityList.map { ListItem(it.id1, it.id2, it.name, it.uid, "", "", "", "") }
+        return entityList.map { ListItem(it.id1, it.id2, it.name, it.uid, "", "", "", it.value) }
     }
 
     fun convertRemListToResultEntity(remListItem: List<ListItem>): List<ResultEntity> {
-        val uid = UUID.randomUUID().toString()
+
         return remListItem.map {
-            ResultEntity(it.id1, it.id2, it.name, it.value, uid
+            ResultEntity(it.id1, it.id2, it.name, it.favorite, ""
 
             )
         }
@@ -93,7 +107,7 @@ open class Converters : ViewModel() {
                 mainList.secondCurFlag,
                 mainList.countryFirstCur,
                 mainList.countrySecondCur,
-                mainList.curName))
+                mainList.favorite))
         }
         return arrListOfItemStorage
 

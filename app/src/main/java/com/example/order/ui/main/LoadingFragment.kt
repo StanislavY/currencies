@@ -117,6 +117,10 @@ class LoadingFragment:Fragment() {
         job.join()
 
     }
+    private fun getFavorites() = runBlocking { val job = launch {viewModel.getGlobalLIst()  }
+        job.join()
+
+    }
 
 
     private fun goToMainList(

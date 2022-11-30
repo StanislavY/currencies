@@ -75,6 +75,11 @@ open class MainViewModel(
         return converters.convertItemStorageToMainList(itemList)
 
     }
+    fun handleFavoriteButtonClick(listItem:ListItem){
+        makeResultCase.rememberListOfChosenItems(listItem)
+
+
+    }
 
     fun makeOrdersFinishedVM() {
         makeResultCase.makeOrderFinished()

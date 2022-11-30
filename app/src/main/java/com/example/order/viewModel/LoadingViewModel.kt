@@ -41,6 +41,7 @@ class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = Mutable
 
     }
 
+
     suspend fun getPairsList():String  { return suspendCoroutine {
         val x:List<ServerResponseData> = listOf()
         val pairsString=""

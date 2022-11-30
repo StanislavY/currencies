@@ -1,13 +1,16 @@
 package com.example.order.ui.main
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.order.R
 import com.example.order.app.domain.model.ListItem
 import com.example.order.core.App
+import com.example.order.core.GlobalConstAndVars
 import com.example.order.databinding.MainItemBinding
+import kotlinx.android.synthetic.main.main_item.view.*
 
 class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
     private var appContext= App.getContext()
@@ -32,6 +35,12 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
     }
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         holder.bind(listItemData[position])
+        if (listItemData[position].favorite == "1") {
+            holder.itemView.favorite_button.setImageResource(R.drawable.ic_baseline_star_24)
+        }
+        else {
+            holder.itemView.favorite_button.setImageResource(R.drawable.ic_baseline_star_border_24)
+        }
     }
 
 
@@ -77,6 +86,7 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
                 listItem.id2
 
             }*/
+
 
 
             binding.apply {

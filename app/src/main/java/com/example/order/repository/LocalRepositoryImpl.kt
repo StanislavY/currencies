@@ -10,7 +10,7 @@ class LocalRepositoryImpl(private val localDataSource: DatabaseFrom1CDAO) : Loca
     private val converter: Converters = Converters()
     override fun putDataFromServer1CToLocalDatabase(listItemFromServer: List<ListItem>) {
        for (mainList in listItemFromServer) {
-           val data:DatabaseFrom1CEntity=converter.convertMainListToEntityDB1C(mainList.id1,mainList.id2,mainList.name,mainList.value)
+           val data:DatabaseFrom1CEntity=converter.convertMainListToEntityDB1C(mainList.id1,mainList.id2,mainList.name,mainList.value,mainList.secondCurFlag,mainList.countryFirstCur,mainList.countrySecondCur,mainList.favorite)
             insertToDB(data)
 
           }
@@ -36,6 +36,14 @@ class LocalRepositoryImpl(private val localDataSource: DatabaseFrom1CDAO) : Loca
         return converter.convertEntityResultToMainList(localDataSource.getAllUnfinishedResult())
     }
 
+    override fun putDataDBFromListItem(resultListItem: List<ListItem>) {
+
+       resultListItem.forEach {
+
+          insertToDB(converter.convertMainListToEntityDB1C(it.id1,it.id2,it.name,it.value,it.secondCurFlag,it.countryFirstCur,it.countrySecondCur,it.favorite))  }
+
+    }
+
     override fun putDataToResultDBFromListItem(resultListItem: List<ListItem>) {
         val data=converter.convertRemListToResultEntity(resultListItem)
         for (mainList in data) {
@@ -44,6 +52,7 @@ class LocalRepositoryImpl(private val localDataSource: DatabaseFrom1CDAO) : Loca
 
         }
     }
+
 
     override fun getAllUnfinishedDataDBResultEntity(): List<ResultEntity> {
         return localDataSource.getAllUnfinishedResult()

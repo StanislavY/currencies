@@ -13,7 +13,7 @@ data class DatabaseFrom1CEntity(
     var secondCurFlag:String,
     var countryFirstCur:String,
     var countrySecondCur:String,
-    var searchField:String
+    var favorite:String
 
 
 )
