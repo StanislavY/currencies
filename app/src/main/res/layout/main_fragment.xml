@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment"
-    android:layout_above="@id/bottom_bar_main"
+    android:layout_above="@id/tab_main"
     android:backgroundTint="#80424040"
+
 
     >
 
@@ -20,27 +21,29 @@
         >
 
         <com.google.android.material.textfield.TextInputLayout
-
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-           app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0"
             android:id="@+id/input_layout"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.09"
+
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/hint_search_main_fragment"
+            android:paddingStart="@dimen/head_margin"
+
+
+            android:paddingEnd="@dimen/head_margin"
             app:endIconCheckable="true"
             app:endIconMode="custom"
+            app:layout_constraintEnd_toStartOf="@id/abc_filter"
+            app:layout_constraintHeight_percent="0.20"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toStartOf="parent"
+
             app:layout_constraintTop_toTopOf="parent"
 
 
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/input_date_layout"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -50,146 +53,149 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.09"
-            android:id="@+id/input_date_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/abc_filter"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input_layout"
-            app:layout_constraintBottom_toTopOf="@id/input_work_amount_layout"
-            android:hint="@string/date_of_order"
-            app:endIconCheckable="true"
-            app:endIconDrawable="@drawable/ic_baseline_date_range_24"
-            app:endIconMode="custom"
+
+
+            android:backgroundTint="@color/white"
+            android:paddingEnd="@dimen/head_margin"
+            android:src="@drawable/sort_abc_up"
+            app:layout_constraintBottom_toBottomOf="@id/input_layout"
+            app:layout_constraintEnd_toEndOf="@id/value_filter"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/input_layout"
+            app:layout_constraintTop_toTopOf="parent"
+
+
+            app:layout_scrollFlags="scroll|enterAlways"
 
             >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:clickable="false"
-                android:longClickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:id="@+id/input_edit_text_date"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text">
 
-            </com.google.android.material.textfield.TextInputEditText>
+        </androidx.appcompat.widget.AppCompatImageButton>
 
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.09"
-            android:id="@+id/input_work_amount_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/value_filter"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/sort_123_up"
+            app:layout_constraintBottom_toBottomOf="@id/input_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input_date_layout"
-            app:layout_constraintBottom_toTopOf="@id/mainFragmentRecyclerView"
-            android:hint="@string/worked_in_nature"
-            app:endIconCheckable="true"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/abc_filter"
+
+
+            app:layout_constraintTop_toTopOf="parent"
 
             >
 
-            <com.google.android.material.textfield.TextInputEditText
 
-
-                android:id="@+id/input_edit_text_worked_out"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"
-                android:maxLength="6">
-
-
-            </com.google.android.material.textfield.TextInputEditText>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.appcompat.widget.AppCompatImageButton>
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingTop="@dimen/recycler_padding"
-            android:paddingStart="@dimen/recycler_padding"
-            android:paddingEnd="@dimen/recycler_padding"
-            app:layout_constraintVertical_chainStyle="packed"
-
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.73"
-
-
-
-
-
             android:id="@+id/mainFragmentRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:paddingStart="@dimen/recycler_padding"
+            android:paddingTop="@dimen/recycler_padding"
+            android:paddingEnd="@dimen/recycler_padding"
+
+
+
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.83"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout"
 
-            app:layout_constraintTop_toBottomOf="@id/input_work_amount_layout"
-            app:layout_constraintBottom_toBottomOf="parent"
 
+            app:layout_constraintVertical_chainStyle="packed"
 
 
             tools:listitem="@layout/main_item">
 
 
         </androidx.recyclerview.widget.RecyclerView>
-     <!--   <androidx.coordinatorlayout.widget.CoordinatorLayout
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.09"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0"
+
+
+        <!--   <androidx.coordinatorlayout.widget.CoordinatorLayout
+               app:layout_constraintVertical_chainStyle="packed"
+               app:layout_constraintHeight_default="percent"
+               app:layout_constraintHeight_percent="0.09"
+               android:layout_width="0dp"
+               android:layout_height="0dp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerView"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintVertical_bias="0"
+
+               >
+
+
+
+
+
+           </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.tabs.TabLayout
+
+
+
+        android:id="@+id/tab_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+
+
+        app:tabSelectedTextColor="@color/black"
+
+
+
+        app:layout_scrollFlags="scroll|enterAlways"
+
+
+        >
+        <com.google.android.material.tabs.TabItem
+
+
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:icon="@drawable/popular_currencies_list"
+            android:text="@string/popular_currencies_list_title"
 
             >
 
 
 
+        </com.google.android.material.tabs.TabItem>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+            android:icon="@drawable/ic_baseline_star_rate_24"
+            android:text="@string/favorite_title"
+            >
 
+        </com.google.android.material.tabs.TabItem>
 
+    </com.google.android.material.tabs.TabLayout>
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.google.android.material.bottomappbar.BottomAppBar
-
-
-        android:id="@+id/bottom_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:backgroundTint="@color/teal_700"
-
-        app:layout_scrollFlags="scroll|enterAlways"
-
-        >
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
 
 
 

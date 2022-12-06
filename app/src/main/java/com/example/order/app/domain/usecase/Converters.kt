@@ -124,7 +124,7 @@ open class Converters : ViewModel() {
                 item.secondCurFlag.toString(),
                 item.countryFirstCur.toString(),
                 item.countrySecondCur.toString(),
-                item.curName.toString()))
+                item.favorite.toString()))
 
 
         }

@@ -134,25 +134,18 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
 
            }
            }
-        val x= converters.convertEntityResultToMainList(
-            localRepository1C.getAllDatafromDBResult())
+
 
         listFromDB.forEach { gl->gl.apply {
-            with(
-                converters.convertEntityResultToMainList(
-                    localRepository1C.getAllDatafromDBResult())){
-              favorite=
-                  firstOrNull { it.id1==gl.id1&&it.id2==gl.id2 }?.favorite ?: "0"
-
-
+            with(converters.convertEntityResultToMainList(localRepository1C.getAllDatafromDBResult())){
+              favorite=firstOrNull { it.id1==gl.id1&&it.id2==gl.id2 }?.favorite ?: "0"
             }
-
-
         }
         }
-
         return listFromDB
     }
+
+
 
     private fun createOrdersList(listItem: List<ListItem>): List<ListItem> {
         val startListItem: List<ListItem> = listItem.distinctBy { it.id1

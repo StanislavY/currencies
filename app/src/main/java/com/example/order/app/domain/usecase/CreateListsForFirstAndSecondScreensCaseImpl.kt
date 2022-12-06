@@ -32,7 +32,7 @@ class CreateListsForFirstAndSecondScreensCaseImpl: CreateListsForFirstAndSecondS
 
                 }*/
         GlobalConstAndVars.LIST_OF_ITEMS_FOR_FIRST_AND_SECOND_SCREENS=tempListItem/*.distinctBy { it.name to it.id1 to it.id2 }*/
-        return  GlobalConstAndVars.LIST_OF_ITEMS_FOR_FIRST_AND_SECOND_SCREENS
+        return  GlobalConstAndVars.GLOBAL_LIST
 
 
                 }

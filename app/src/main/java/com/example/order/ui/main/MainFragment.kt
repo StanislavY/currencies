@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
 import com.example.order.R
 import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.model.SearchItemStorage
@@ -22,6 +23,7 @@ import com.example.order.core.GlobalConstAndVars.KEY_FOR_INFLATE_MAIN_LIST
 import com.example.order.core.GlobalConstAndVars.count
 import com.example.order.databinding.MainFragmentBinding
 import com.example.order.viewModel.MainViewModel
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -31,7 +33,9 @@ import java.util.*
 
 
 class MainFragment : Fragment() {
-
+    var filterAbc = 0
+    var filter123 = 0
+    var sortMode=0
 
 
     private var _binding: MainFragmentBinding? = null
@@ -41,6 +45,16 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this)[MainViewModel::class.java]
     }
+    data class ListItemWithDoubles(
+        var id1: String,
+        var id2: String,
+        var name: String,
+        var value: Double,
+        var secondCurFlag: String,
+        var countryFirstCur: String,
+        var countrySecondCur: String,
+        var favorite: String
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +62,16 @@ class MainFragment : Fragment() {
     ): View {
 
         _binding = MainFragmentBinding.inflate(inflater, container, false)
+
+
+//        val sectionsPagerAdapter = SectionsPagerAdapter(this, parentFragmentManager)
+//        val viewPager: ViewPager = binding.viewPager
+//        viewPager.adapter = sectionsPagerAdapter
+//        val tabs: TabLayout = binding.tabMain
+//        tabs.setupWithViewPager(viewPager)
+
         return binding.root
+
     }
 
 
@@ -63,16 +86,43 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
-
-        createCalendar()
         setWorkedOutFieldBehavior()
         /*setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))*/
-        setBottomAppBar()
+        /*setBottomAppBar()*/
         hideUnnecessaryFields()
-         adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
+        tab_main.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                updateSearch()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+        })
+
+
+
+        binding.abcFilter.setOnClickListener {
+            SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sortAbc(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
+        updateSearch()}
+
+        binding.valueFilter.setOnClickListener {
+            SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sort123(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
+        updateSearch()
+        }
+
+
+
+
+        adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
                 viewModel.handleFavoriteButtonClick(listItem)
                 viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
+                SearchItemStorage.list =
+                    viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
                 adapter.setListItem(GlobalConstAndVars.GLOBAL_LIST)
 
 
@@ -84,11 +134,11 @@ class MainFragment : Fragment() {
         viewModel.processAppState().observe(viewLifecycleOwner, { renderList(it) })
         viewModel.processTheSelectedItem()
         launchSearchBarListener()
-        isEditingWorkedOutFieldFinished()    
+        isEditingWorkedOutFieldFinished()
 
     }
 
-    private fun favoriteButtonClicked(listItem:ListItem) {
+    private fun favoriteButtonClicked(listItem: ListItem) {
         viewModel.handleFavoriteButtonClick(listItem)
         checkFieldsCompleteness()
     }
@@ -100,16 +150,14 @@ class MainFragment : Fragment() {
 
     private fun setBottomAppBar() {
         val context = activity as MainActivity
-        context.setSupportActionBar(binding.bottomBarMain)
+        /* context.setSupportActionBar(binding.bottomBarMain)*/
         setHasOptionsMenu(true)
 
     }
 
 
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.send_main_bottom_bar) {
+        /* if (item.itemId == R.id.favorite_app_bottom_bar) {
             rememberDate()
             rememberWorkedOutAmount()
 
@@ -127,7 +175,7 @@ class MainFragment : Fragment() {
 
            makeDetails(manager,listItem)
 
-        }
+        }*/
 
 
         return super.onOptionsItemSelected(item)
@@ -135,21 +183,21 @@ class MainFragment : Fragment() {
 
     private fun showOrHideOrdersList() {
         if (GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST == 0) {
-            GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST=1
+            GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST = 1
             /*viewModel.getOrdersListFromDBResult()*/
-            newInstance()
+            /* newInstance()*/
 
-        }
-        else { GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST=0
-          /*  viewModel.getGlobalLIst()*/
-            newInstance()
+        } else {
+            GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST = 0
+            /*  viewModel.getGlobalLIst()*/
+            /*newInstance()*/
         }
     }
 
 
     private fun checkFieldsCompleteness() {
 
-            viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
+        viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
 
     }
 
@@ -179,8 +227,11 @@ class MainFragment : Fragment() {
                 "Фактически отработано в натуре",
                 GlobalConstAndVars.WORKED_OUT,
                 GlobalConstAndVars.WORKED_OUT,
-                GlobalConstAndVars.DEFAULT_VALUE_FOR_GENERATED_LIST
-                ,"","","","") // убрать хардкод из этой строки
+                GlobalConstAndVars.DEFAULT_VALUE_FOR_GENERATED_LIST,
+                "",
+                "",
+                "",
+                "") // убрать хардкод из этой строки
             viewModel.rememberListOfChosenItemsVM(worked)
         }
     }
@@ -191,7 +242,7 @@ class MainFragment : Fragment() {
                 "date",
                 "date",
                 GlobalConstAndVars.DATE_OF_ORDER,
-                "","","","","Ариари")//брать хардкод из этой строки
+                "", "", "", "", "Ариари")//брать хардкод из этой строки
             viewModel.rememberListOfChosenItemsVM(dateFromCalendar)
         }
     }
@@ -209,26 +260,140 @@ class MainFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
     }
-    private fun updateSearch() {
-        val etSearchBar=binding.inputEditText
-        val s = etSearchBar.text
-        if (s?.length == 0) {
-            adapter.setListItem(viewModel.convertArrayListItemToMainList(SearchItemStorage.list))
-        } else {
-            adapter.setListItem( viewModel.convertArrayListItemToMainList(SearchItemStorage.list).filter {
+    fun sortRouter(sortMode:Int,listToSort:List<ListItem>){
+        if (sortMode==1){
+            sortAbc(listToSort)
+        }
+        else{
+            sort123(listToSort)
+            val f=sort123(listToSort)
+        }
+    }
 
-                it.id2.contains(s.toString(), true)
-                        ||it.id1.contains(s.toString(), true)
-                        ||it.countryFirstCur.contains(s.toString(),true )
-                        ||it.countrySecondCur.contains(s.toString(),true )
-                        ||it.favorite.contains(s.toString(),true )
-            }
-            )
+    private fun sortAbc(listToSort:List<ListItem>):List<ListItem> {
+
+        if (filterAbc == 0) {
+            binding.abcFilter.setImageResource(R.drawable.sort_abc_down)
+            filterAbc = 1
+           return listToSort.sortedByDescending { it.id1 }
 
 
-            }
+        } else
+            filterAbc = 0
+        binding.abcFilter.setImageResource(R.drawable.sort_abc_up)
+       return listToSort.sortedBy { it.id1 }
+
+
+
+
+
+
+
+    }
+
+    private fun sort123(listToSort:List<ListItem>):List<ListItem> {
+
+
+
+    convertToDouble(listToSort).apply {
+            sortedByDescending { it.value }
+
+            if (filter123 == 0) {
+                filter123 = 1
+                binding.valueFilter.setImageResource(R.drawable.sort_123_down)
+               val x= convertToDouble(listToSort).apply {
+                    sortedByDescending { it.value }}
+
+
+                return convertFromDouble(x)/*listToSort.apply {
+                    sortedByDescending { it.value }
+
+                }*/
+
+
+            } else
+        convertToDouble(listToSort).apply {
+            sortedBy { it.value }}
+                filter123 = 0
+
+            binding.valueFilter.setImageResource(R.drawable.sort_123_up)
+
+            return convertFromDouble(convertToDouble(listToSort).apply {
+                sortedBy { it.value }})
+
 
         }
+    }
+    private fun convertToDouble(list:List<ListItem>):List<ListItemWithDoubles>{
+       return list.map {
+            ListItemWithDoubles(it.id1,
+                it.id2,
+                it.name,
+                it.value.toDouble(),
+                it.secondCurFlag,
+                it.countryFirstCur,
+                it.countrySecondCur,
+                it.favorite)
+        }
+    }
+    private fun convertFromDouble(list:List<ListItemWithDoubles>):List<ListItem>{
+        return list.map {
+            ListItem(it.id1,
+                it.id2,
+                it.name,
+                it.value.toString(),
+                it.secondCurFlag,
+                it.countryFirstCur,
+                it.countrySecondCur,
+                it.favorite)
+        }
+    }
+
+
+
+
+
+    private fun updateSearch():List<ListItem> {
+
+
+        val etSearchBar = binding.inputEditText
+        val s = etSearchBar.text
+        val listToFilter=viewModel.convertArrayListItemToMainList(SearchItemStorage.list)
+        if (s?.length == 0&&tab_main.selectedTabPosition==0) {
+           adapter.setListItem(listToFilter)
+            return viewModel.convertArrayListItemToMainList(SearchItemStorage.list)
+        }
+        if (s?.length !=0&&tab_main.selectedTabPosition==0) {
+               adapter.setListItem(filterList(listToFilter,s)
+
+                )
+                return filterList(listToFilter,s)
+            }
+        if (s?.length == 0&&tab_main.selectedTabPosition==1) {
+            adapter.setListItem(listToFilter.filter { it.favorite == "1" })
+           return viewModel.convertArrayListItemToMainList(SearchItemStorage.list).filter { it.favorite == "1" }
+        }
+        if (s?.length !=0&&tab_main.selectedTabPosition==1) {
+             adapter.setListItem(filterList(listToFilter.filter { it.favorite == "1" },s)
+                )
+            filterList(listToFilter.filter { it.favorite == "1" },s)
+            }
+
+        return GlobalConstAndVars.DEFAULT_lIST
+    }
+    private fun filterList(listToFilter:List<ListItem>,s:Editable?):List<ListItem>{
+
+        return  listToFilter.filter {
+
+            it.id2.contains(s.toString(), true)
+                    || it.id1.contains(s.toString(), true)
+                    || it.countryFirstCur.contains(s.toString(), true)
+                    || it.countrySecondCur.contains(s.toString(), true)
+                    || it.favorite.contains(s.toString(), true)
+
+        }
+
+    }
 
 
 
@@ -291,15 +456,18 @@ class MainFragment : Fragment() {
 
     }
     private fun hideUnnecessaryFields(){
-        binding.inputEditTextDate.isGone=true
-        binding.bottomBarMain.isGone=true
-        binding.inputLayout.isGone=false
-        binding.inputEditTextWorkedOut.isGone=true
-        binding.inputDateLayout.endIconMode=TextInputLayout.END_ICON_NONE
+
+       /* binding.bottomBarMain.isGone=true*/
+
+
+
+
+
+
         val params = binding.mainFragmentRecyclerView.layoutParams as ConstraintLayout.LayoutParams
         params.topToBottom=binding.inputLayout.id
-        params.matchConstraintPercentHeight= 0.89F
-        binding.bottomBarMain.isGone=false
+        params.matchConstraintPercentHeight= 0.79F
+      /*  binding.bottomBarMain.isGone=false*/
 
        /* if (count!= KEY_FOR_INFLATE_MAIN_LIST) {
             //второй экран
@@ -308,9 +476,7 @@ class MainFragment : Fragment() {
             binding.inputLayout.isGone=false
             binding.inputEditTextWorkedOut.isGone=true
             binding.inputDateLayout.endIconMode=TextInputLayout.END_ICON_NONE
-            val params = binding.mainFragmentRecyclerView.layoutParams as ConstraintLayout.LayoutParams
-            params.topToBottom=binding.inputLayout.id
-            params.matchConstraintPercentHeight= 0.89F
+
 
         } else {
             //первый экран
@@ -330,12 +496,12 @@ class MainFragment : Fragment() {
     }
     private fun createCalendar() {
 
-        val textView = binding.inputEditTextDate
+
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val monthFromCalendar = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        textView.setText(GlobalConstAndVars.DATE_OF_ORDER)
+      /*  textView.setText(GlobalConstAndVars.DATE_OF_ORDER)
         input_date_layout.setEndIconOnClickListener {
             val dpd = DatePickerDialog(requireContext(), { _, year, _, dayOfMonth ->
                 val month = monthFromCalendar + 1
@@ -344,25 +510,20 @@ class MainFragment : Fragment() {
                 textView.setText(GlobalConstAndVars.DATE_OF_ORDER)
             }, year, monthFromCalendar, day)
             dpd.show()
-        }
+        }*/
     }
 
     private fun setWorkedOutFieldBehavior() {
-        val workedOut = binding.inputEditTextWorkedOut
-        workedOut.setText(GlobalConstAndVars.WORKED_OUT)
+
+       /* workedOut.setText(GlobalConstAndVars.WORKED_OUT)
         workedOut.setOnClickListener {
             GlobalConstAndVars.WORKED_OUT = workedOut.text.toString()
             workedOut.setText(GlobalConstAndVars.WORKED_OUT)
-        }
+        }*/
 
     }
     private fun isEditingWorkedOutFieldFinished() {
-        binding.inputEditTextWorkedOut.setOnFocusChangeListener { _: View, b: Boolean ->
-            if (!b) {
-                GlobalConstAndVars.WORKED_OUT = binding.inputEditTextWorkedOut.text.toString()
-                binding.inputEditTextWorkedOut.setText(GlobalConstAndVars.WORKED_OUT)
-            }
-        }
+
     }
     fun chooseScreenToShow(listItem:ListItem){
         if (count == KEY_FOR_INFLATE_MAIN_LIST) {
@@ -397,7 +558,14 @@ class MainFragment : Fragment() {
 
 
     companion object {
-        fun newInstance()= MainFragment()
+        private const val ARG_SECTION_NUMBER = "2"
+        fun newInstance(sectionNumber: Int): MainFragment {
+            return MainFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                }
+            }
+        }
         }
  }
 

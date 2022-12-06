@@ -67,7 +67,7 @@ class SaveFragment:Fragment() {
         manager: FragmentManager?,
 
     ) {
-        manager?.beginTransaction()?.replace(R.id.container, MainFragment.newInstance())
+        manager?.beginTransaction()?.replace(R.id.container, MainFragment.newInstance(1))
             ?.addToBackStack("")?.commitAllowingStateLoss()
     }
     companion object {

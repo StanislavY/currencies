@@ -11,7 +11,7 @@ data class SearchItem (
    var secondCurFlag:Spannable,
    var countryFirstCur:Spannable,
    var countrySecondCur:Spannable,
-   var curName:Spannable
+   var favorite:Spannable
 
 ) {
     constructor(id1:String, id2:String, name: String,value:String, secondCurFlag:String,

@@ -11,4 +11,5 @@
     <dimen name="margin_between_rows">3dp</dimen>
     <dimen name="padding_bottom_for_text">10dp</dimen>
     <dimen name="recycler_padding">10dp</dimen>
+    <dimen name="head_margin">10dp</dimen>
 </resources>

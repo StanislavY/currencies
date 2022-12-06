@@ -4,6 +4,6 @@
     <string name="hint_search_main_fragment">Страна или тикер валюты</string>
     <string name="date_of_order">Дата наряда</string>
     <string name="worked_in_nature">Отработано в натуре</string>
-    <string name="send_data_message">Переслать данные на сервер</string>
-    <string name="save_data_message">Сохранить наряд</string>
+    <string name="popular_currencies_list_title">Популярное</string>
+    <string name="favorite_title">Избранное</string>
 </resources>

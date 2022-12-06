@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     >
-    <item
-        android:id="@+id/refresh"
-        android:icon="@drawable/ic_baseline_autorenew_24"
-        android:title="@string/send_data_message"
-        app:showAsAction="ifRoom">
 
-    </item>
-    <item
-        android:id="@+id/send_main_bottom_bar"
-        android:icon="@drawable/ic_baseline_send_24"
-        android:title="@string/save_data_message"
-        app:showAsAction="ifRoom">
-
-    </item>
 
 
     <item
         android:id="@+id/order_list"
+        android:visible="false"
 
 
-        android:icon="@drawable/orders_list"
+        android:icon="@drawable/popular_currencies_list"
         android:title="Список нарядов"
         app:showAsAction="ifRoom" />
 

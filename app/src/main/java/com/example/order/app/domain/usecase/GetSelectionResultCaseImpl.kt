@@ -24,6 +24,7 @@ class GetSelectionResultCaseImpl: GetSelectionResultCase {
             if (it.id1 == listItem.id1&&it.id2==listItem.id2) {
                 it.favorite=listItem.favorite
             } }
+        val x=GlobalConstAndVars.GLOBAL_LIST
         GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS=rememberedListItem
         return GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS
     }
