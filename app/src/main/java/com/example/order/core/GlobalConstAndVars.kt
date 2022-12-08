@@ -28,7 +28,7 @@ object GlobalConstAndVars {
     const val MARKER_OF_FINISHED_ORDER="1"
     var WORKED_OUT:String=""
     var SWITCH_FOR_ORDERS_LIST=0
-    val countriesList = listOf(
+    val COUNTRIES_AND_CURRENCIES_lIST = listOf(
         ListItem("MGA","Мадагаскар","","mg","","","","Ариари"),
         ListItem("AFN","Афганистан","","af","","","","Афгани"),
         ListItem("PAB","Панама","","pa","","","","Бальбоа"),

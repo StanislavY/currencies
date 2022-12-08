@@ -79,7 +79,7 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
                 dataFrom1C = localRepository1C.getAllDataDB1CEntity()
                 GlobalConstAndVars.listItemFromDb=dataFrom1C
 
-                startList=fillFlagsAndCountriesInGlobalList(dataFrom1C)
+                startList=fillFlagsFavoritesAndCountriesInCurList(dataFrom1C)
 
 
 
@@ -120,23 +120,21 @@ class CreateListOfAllItemsFrom1CDBCaseImpl(): CreateListOfAllItemsFrom1CDBCase {
 
         return startList
     }
-    private fun fillFlagsAndCountriesInGlobalList(listFromDB:List<ListItem>):List<ListItem>{
-       listFromDB.forEach { gl->gl.apply {
-           with(GlobalConstAndVars.countriesList){
+    private fun fillFlagsFavoritesAndCountriesInCurList(listFromDB:List<ListItem>):List<ListItem>{
+       listFromDB.forEach { gl->gl.apply {//заполняем флаги и наименования валют в списке валют
+           with(GlobalConstAndVars.COUNTRIES_AND_CURRENCIES_lIST){
                name=firstOrNull { it.id1==gl.id1 }?.value ?: "0"
                secondCurFlag=firstOrNull { it.id1==gl.id2 }?.value ?: "0"
-               countryFirstCur=firstOrNull { it.id1==gl.id1 }?.id2 ?: "0"
-               countrySecondCur=firstOrNull { it.id1==gl.id2 }?.id2 ?: "0"
-               favorite=firstOrNull { it.id1==gl.favorite }?.id2 ?: "0"
+               countryFirstCur=firstOrNull { it.id1==gl.id1 }?.favorite ?: "0"
+               countrySecondCur=firstOrNull { it.id1==gl.id2 }?.favorite ?: "0"
+               /*favorite=firstOrNull { it.id1==gl.favorite }?.id2 ?: "0"*/
 
 
            }
 
            }
            }
-
-
-        listFromDB.forEach { gl->gl.apply {
+        listFromDB.forEach { gl->gl.apply {//заполняем отметки избранного в в списке валют
             with(converters.convertEntityResultToMainList(localRepository1C.getAllDatafromDBResult())){
               favorite=firstOrNull { it.id1==gl.id1&&it.id2==gl.id2 }?.favorite ?: "0"
             }

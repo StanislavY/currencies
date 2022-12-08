@@ -58,16 +58,22 @@
             android:id="@+id/abc_filter"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scaleType="fitCenter"
+
 
 
             android:backgroundTint="@color/white"
             android:paddingEnd="@dimen/head_margin"
             android:src="@drawable/sort_abc_up"
-            app:layout_constraintBottom_toBottomOf="@id/input_layout"
+            app:layout_constraintBottom_toTopOf="@id/mainFragmentRecyclerView"
             app:layout_constraintEnd_toEndOf="@id/value_filter"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/input_layout"
             app:layout_constraintTop_toTopOf="parent"
+           android:layout_marginTop="@dimen/head_margin"
+            android:layout_marginBottom="@dimen/head_margin"
+
+
 
 
             app:layout_scrollFlags="scroll|enterAlways"
@@ -79,6 +85,7 @@
 
 
         <androidx.appcompat.widget.AppCompatImageButton
+
             android:id="@+id/value_filter"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -91,6 +98,9 @@
 
 
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/head_margin"
+            android:layout_marginBottom="@dimen/head_margin"
+            android:scaleType="fitCenter"
 
             >
 

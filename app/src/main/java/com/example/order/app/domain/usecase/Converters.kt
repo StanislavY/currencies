@@ -20,7 +20,7 @@ open class Converters : ViewModel() {
                 it.removeRange(GlobalConstAndVars.FIRST_INDEX_OF_CROSSCOUSE..it.lastIndex)
                     .removeRange(0 until GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY),
                 "",
-                it.removeRange(0..5), "", "", "", "")
+                it.removeRange(0..5)/*.replace(".",",")*/, "", "", "", "")
         }
 
     }

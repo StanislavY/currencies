@@ -1,19 +1,16 @@
 package com.example.order.ui.main
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
 import com.example.order.R
 import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.model.SearchItemStorage
@@ -25,9 +22,7 @@ import com.example.order.databinding.MainFragmentBinding
 import com.example.order.viewModel.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.main_fragment.*
-import kotlinx.android.synthetic.main.main_item.view.*
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -80,16 +75,15 @@ class MainFragment : Fragment() {
         _binding = null
         adapter.removeOnItemViewClickListener()
 
+
     }
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         setWorkedOutFieldBehavior()
-        /*setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))*/
-        /*setBottomAppBar()*/
-        hideUnnecessaryFields()
+
+        setRecyclerParams()
         tab_main.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 updateSearch()
@@ -102,28 +96,22 @@ class MainFragment : Fragment() {
 
             }
         })
-
-
-
-        binding.abcFilter.setOnClickListener {
+        binding.apply {
+            abcFilter.setOnClickListener {
             SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sortAbc(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
-        updateSearch()}
+            updateSearch()}
 
-        binding.valueFilter.setOnClickListener {
-            SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sort123(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
-        updateSearch()
+            valueFilter.setOnClickListener {
+                SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sort123(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
+                updateSearch()
+            }
         }
-
-
-
-
         adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
                 viewModel.handleFavoriteButtonClick(listItem)
                 viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
-                SearchItemStorage.list =
-                    viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
-                adapter.setListItem(GlobalConstAndVars.GLOBAL_LIST)
+                SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
+                updateSearch()
 
 
             }
@@ -260,15 +248,7 @@ class MainFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
     }
-    fun sortRouter(sortMode:Int,listToSort:List<ListItem>){
-        if (sortMode==1){
-            sortAbc(listToSort)
-        }
-        else{
-            sort123(listToSort)
-            val f=sort123(listToSort)
-        }
-    }
+
 
     private fun sortAbc(listToSort:List<ListItem>):List<ListItem> {
 
@@ -291,40 +271,22 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun sort123(listToSort:List<ListItem>):List<ListItem> {
+    private fun sort123(listToSort: List<ListItem>): List<ListItem> {
+        if (filter123 == 0) {
+            filter123 = 1
+            binding.valueFilter.setImageResource(R.drawable.sort_123_down)
+            return convertFromDouble(convertToDouble(listToSort).sortedByDescending { it.value })
+
+        } else
+            filter123 = 0
+        binding.valueFilter.setImageResource(R.drawable.sort_123_up)
+        return convertFromDouble(convertToDouble(listToSort).sortedBy { it.value })
 
 
-
-    convertToDouble(listToSort).apply {
-            sortedByDescending { it.value }
-
-            if (filter123 == 0) {
-                filter123 = 1
-                binding.valueFilter.setImageResource(R.drawable.sort_123_down)
-               val x= convertToDouble(listToSort).apply {
-                    sortedByDescending { it.value }}
-
-
-                return convertFromDouble(x)/*listToSort.apply {
-                    sortedByDescending { it.value }
-
-                }*/
-
-
-            } else
-        convertToDouble(listToSort).apply {
-            sortedBy { it.value }}
-                filter123 = 0
-
-            binding.valueFilter.setImageResource(R.drawable.sort_123_up)
-
-            return convertFromDouble(convertToDouble(listToSort).apply {
-                sortedBy { it.value }})
-
-
-        }
     }
     private fun convertToDouble(list:List<ListItem>):List<ListItemWithDoubles>{
+
+
        return list.map {
             ListItemWithDoubles(it.id1,
                 it.id2,
@@ -376,11 +338,14 @@ class MainFragment : Fragment() {
         if (s?.length !=0&&tab_main.selectedTabPosition==1) {
              adapter.setListItem(filterList(listToFilter.filter { it.favorite == "1" },s)
                 )
-            filterList(listToFilter.filter { it.favorite == "1" },s)
+            return filterList(listToFilter.filter { it.favorite == "1" },s)
             }
 
         return GlobalConstAndVars.DEFAULT_lIST
     }
+
+
+
     private fun filterList(listToFilter:List<ListItem>,s:Editable?):List<ListItem>{
 
         return  listToFilter.filter {
@@ -455,37 +420,11 @@ class MainFragment : Fragment() {
         }
 
     }
-    private fun hideUnnecessaryFields(){
-
-       /* binding.bottomBarMain.isGone=true*/
-
-
-
-
-
-
+    private fun setRecyclerParams(){
         val params = binding.mainFragmentRecyclerView.layoutParams as ConstraintLayout.LayoutParams
         params.topToBottom=binding.inputLayout.id
         params.matchConstraintPercentHeight= 0.79F
-      /*  binding.bottomBarMain.isGone=false*/
 
-       /* if (count!= KEY_FOR_INFLATE_MAIN_LIST) {
-            //второй экран
-            binding.inputEditTextDate.isGone=true
-            binding.bottomBarMain.isGone=true
-            binding.inputLayout.isGone=false
-            binding.inputEditTextWorkedOut.isGone=true
-            binding.inputDateLayout.endIconMode=TextInputLayout.END_ICON_NONE
-
-
-        } else {
-            //первый экран
-            binding.inputDateLayout.isGone=false
-            binding.inputLayout.isGone=true
-            binding.bottomBarMain.isGone=false
-            binding.inputEditTextWorkedOut.isGone=false
-
-        }*/
     }
     private fun goToSaveFragment(
         manager: FragmentManager?,

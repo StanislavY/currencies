@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Order</string>
     <string name="discription">комментарий к картинке</string>
-    <string name="hint_search_main_fragment">Страна или тикер валюты</string>
+    <string name="hint_search_main_fragment">Наименование или тикер валюты</string>
     <string name="date_of_order">Дата наряда</string>
     <string name="worked_in_nature">Отработано в натуре</string>
     <string name="popular_currencies_list_title">Популярное</string>
