@@ -8,9 +8,10 @@ import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
 import com.example.order.datasource.Server.ServerResponseData
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-open class Converters : ViewModel() {
+open class Converters @Inject constructor() : ViewModel() {
 
     fun converterFromStringToMutableListItem(stringToConvert: String): List<ListItem> {
         return stringToConvert.removeRange(0..28).replace(" ", "").replace("=", "").dropLast(2)

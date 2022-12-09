@@ -1,8 +1,9 @@
 package com.example.order.datasource.Server
 
 import com.google.gson.annotations.SerializedName
+import javax.inject.Inject
 
-data class ServerResponseDataPairs(
+data class ServerResponseDataPairs @Inject constructor (
 
 
 

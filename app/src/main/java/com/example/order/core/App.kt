@@ -8,7 +8,9 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1C
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CDAO
+import dagger.hilt.android.HiltAndroidApp
 import java.lang.IllegalStateException
+@HiltAndroidApp
 
 class App: Application() {
 

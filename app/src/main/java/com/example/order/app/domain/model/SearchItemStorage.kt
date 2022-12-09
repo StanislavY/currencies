@@ -4,8 +4,6 @@ import kotlin.collections.ArrayList
 
 class SearchItemStorage {
     companion object {
-
-
         var list: ArrayList<SearchItem> = ArrayList()
 
 

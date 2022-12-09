@@ -5,8 +5,12 @@ import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CDAO
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
 import com.example.order.app.domain.usecase.Converters
+import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LocalRepositoryImpl(private val localDataSource: DatabaseFrom1CDAO) : LocalRepository {
+    @Inject lateinit var repository:LocalRepository
     private val converter: Converters = Converters()
     override fun putDataFromServer1CToLocalDatabase(listItemFromServer: List<ListItem>) {
        for (mainList in listItemFromServer) {
@@ -40,7 +44,8 @@ class LocalRepositoryImpl(private val localDataSource: DatabaseFrom1CDAO) : Loca
 
        resultListItem.forEach {
 
-          insertToDB(converter.convertMainListToEntityDB1C(it.id1,it.id2,it.name,it.value,it.secondCurFlag,it.countryFirstCur,it.countrySecondCur,it.favorite))  }
+          insertToDB(
+              converter.convertMainListToEntityDB1C(it.id1,it.id2,it.name,it.value,it.secondCurFlag,it.countryFirstCur,it.countrySecondCur,it.favorite))  }
 
     }
 

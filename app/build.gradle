@@ -4,11 +4,19 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 
+
+
+
+
+
+
 }
 
 
 
 
+
+apply plugin: 'com.google.dagger.hilt.android'
 
 
 android {
@@ -111,7 +119,15 @@ allprojects {
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
+        implementation 'com.google.dagger:hilt-android:2.44.2'
+        kapt 'com.google.dagger:hilt-compiler:2.44.2'
+
+
 
 
 
     }
+kapt {
+    correctErrorTypes true
+}
+

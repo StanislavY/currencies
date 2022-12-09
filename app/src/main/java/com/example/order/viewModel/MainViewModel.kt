@@ -11,19 +11,24 @@ import com.example.order.datasource.Server.Retrofit1C
 import com.example.order.datasource.Server.ServerResponseData
 import com.example.order.app.domain.usecase.AppState
 import com.example.order.app.domain.usecase.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-open class MainViewModel(
-    private val createLists: CreateListsForFirstAndSecondScreensCase = CreateListsForFirstAndSecondScreensCaseImpl(),
-    private val makeResultCase: GetSelectionResultCase = GetSelectionResultCaseImpl()
+@HiltViewModel
+open class MainViewModel @Inject constructor (
+
 
 
 
 
 ) : ViewModel() {
+    private val createLists: CreateListsForFirstAndSecondScreensCase = CreateListsForFirstAndSecondScreensCaseImpl()
+    private val makeResultCase: GetSelectionResultCase = GetSelectionResultCaseImpl()
+
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val retrofit1C: Retrofit1C = Retrofit1C()
     private val converters: Converters = Converters()

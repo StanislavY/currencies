@@ -13,15 +13,14 @@ import com.example.order.R
 import com.example.order.app.domain.usecase.AppState
 import com.example.order.databinding.LoadingFragmentBinding
 import com.example.order.viewModel.LoadingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+@AndroidEntryPoint
 
 class LoadingFragment:Fragment() {
     private var _binding:LoadingFragmentBinding?=null
     private val binding get()=_binding!!
     private val viewModel:LoadingViewModel by lazy { ViewModelProvider(this).get(LoadingViewModel::class.java) }
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

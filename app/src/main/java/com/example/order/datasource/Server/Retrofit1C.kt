@@ -10,9 +10,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.jvm.Throws
 
-class Retrofit1C {
+
+class Retrofit1C @Inject constructor() {
     private val baseUrl="https://currate.ru/api/"
     fun getRetrofit(): API {
         val retrofit1C =Retrofit.Builder()
@@ -25,29 +27,7 @@ class Retrofit1C {
     }
     private fun createOkHttpClient():OkHttpClient{
         val httpClient=OkHttpClient.Builder()
-       /* httpClient.addInterceptor(AuthInterceptor(BuildConfig.API_USERNAME,BuildConfig.API_PASSWORD))*/
-     /*   httpClient.addInterceptor(interceptor)*/
-      /*  httpClient.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))*/
-        return httpClient.build()
-
-    }
-    inner class Interceptor1C:Interceptor{
-        override fun intercept(chain: Interceptor.Chain): Response {
-            return chain.proceed((chain.request()))
-        }
-
-
-
-    }
-    inner class AuthInterceptor(user:String,password:String):Interceptor{
-        private val credentials:String=Credentials.basic(user,password)
-        @Throws(IOException::class)
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val request=chain.request()
-            val authRequest=request.newBuilder()
-                .header("Authorization",credentials).build()
-            return chain.proceed((authRequest))
-        }
+           return httpClient.build()
 
     }
 

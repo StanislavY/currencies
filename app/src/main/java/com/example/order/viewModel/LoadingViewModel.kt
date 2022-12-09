@@ -11,6 +11,7 @@ import com.example.order.core.GlobalConstAndVars
 import com.example.order.datasource.Server.Retrofit1C
 import com.example.order.datasource.Server.ServerResponseData
 import com.example.order.datasource.Server.ServerResponseDataPairs
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,16 +19,20 @@ import kotlinx.coroutines.SupervisorJob
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-
-class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = MutableLiveData(),
-                       private val retrofit1C: Retrofit1C = Retrofit1C(),
-                       private val converters: Converters = Converters()
-):ViewModel() {
-    private val createGlobalListCase: CreateListOfAllItemsFrom1CDBCase = CreateListOfAllItemsFrom1CDBCaseImpl()
+@HiltViewModel
+class LoadingViewModel @Inject constructor (
+    private val retrofit1C:Retrofit1C,
+    private val converters: Converters,
+    private val createGlobalListCase: CreateListOfAllItemsFrom1CDBCase = CreateListOfAllItemsFrom1CDBCaseImpl(),
     private val loadFrom1CtoDBCase:LoadDataFrom1CCase=LoadDataFrom1CCaseImpl()
+
+):ViewModel() {
+    val liveDataToObserve:MutableLiveData<AppState> = MutableLiveData()
+
 
     fun getDataFromServerForDB(): LiveData<AppState> {
 
@@ -64,7 +69,7 @@ class LoadingViewModel(val liveDataToObserve:MutableLiveData<AppState> = Mutable
 
 
 
-                        /*converters.converterFromResponseServerToMainList(response.body()!!*/
+
 
 
 
