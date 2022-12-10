@@ -4,6 +4,11 @@ import com.example.order.app.domain.model.ListItem
 import com.example.order.datasource.Server.ServerResponseData
 
 object GlobalConstAndVars {
+    const val   ITS_NOT_FAVORITE="0"
+    const val ITS_FAVORITE="1"
+
+    const val ERROR_API_KEY_NOT_FOUND="You need API key"
+    const val API_KEY ="39019b3af300a1027141bb1d9eb2354e"//так сделал в демонстрационных целях
     const val FIRST_INDEX_OF_SECOND_CURRENCY=3
     const val FIRST_INDEX_OF_CROSSCOUSE=6
 
@@ -11,8 +16,7 @@ object GlobalConstAndVars {
     var PAIRS_lIST=""
     var listItemFromDb:List<ListItem> = mutableListOf()
     var LIST_KEY: String = DEFAULT_VALUE
-    var count: Int = 0
-    var KEY_FOR_INFLATE_MAIN_LIST = 0
+
     var LIST_OF_CHOSEN_ITEMS: MutableList<ListItem> = mutableListOf()
     var DATABASE1C_NAME: String = "Database1C.db"
     /*const val STEP_FOR_WORK_LIST=0.01*///не удалять - может понадобиться

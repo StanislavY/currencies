@@ -9,8 +9,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalRepositoryImpl(private val localDataSource: DatabaseFrom1CDAO) : LocalRepository {
-    @Inject lateinit var repository:LocalRepository
+class LocalRepositoryImpl @Inject constructor(private val localDataSource: DatabaseFrom1CDAO) : LocalRepository {
+
     private val converter: Converters = Converters()
     override fun putDataFromServer1CToLocalDatabase(listItemFromServer: List<ListItem>) {
        for (mainList in listItemFromServer) {

@@ -66,26 +66,6 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
 
 
 
-            val textForItem:String = listItem.id1+"/"+listItem.id2+" "+listItem.value/*if (GlobalConstAndVars.LIST_KEY == "0"&&GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST==0) {
-
-
-                    listItem.name + ": " + listItem.value
-
-
-            }
-
-
-            else {
-                if (listItem.id1 == "ВР"&&listItem.value!="") {
-                    listItem.value + ": " + listItem.name
-                } else {
-                   listItem.name
-                }
-            }
-            if (GlobalConstAndVars.LIST_KEY == "0"&&GlobalConstAndVars.SWITCH_FOR_ORDERS_LIST==1) {
-                listItem.id2
-
-            }*/
 
 
 
@@ -126,11 +106,5 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
         return fileID
     }
 
-    /* private fun getFlag( parent: MainFragmentBinding,mDrawableName:String):Int{
 
-
-         resID = parent.context.resources.getIdentifier(mDrawableName, "drawable",parent.context.packageName)
-
-        return resID
-     }*/
 }

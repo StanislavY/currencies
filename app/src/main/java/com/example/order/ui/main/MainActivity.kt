@@ -16,12 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-/*
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = binding.tabMain
-        tabs.setupWithViewPager(viewPager)*/
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(binding.container.id, LoadingFragment.newInstance())

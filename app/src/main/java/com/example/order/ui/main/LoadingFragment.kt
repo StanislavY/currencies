@@ -1,7 +1,6 @@
 package com.example.order.ui.main
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,15 +20,14 @@ class LoadingFragment:Fragment() {
     private var _binding:LoadingFragmentBinding?=null
     private val binding get()=_binding!!
     private val viewModel:LoadingViewModel by lazy { ViewModelProvider(this).get(LoadingViewModel::class.java) }
+    private val loadingFragmentCoroutineScope =
+        CoroutineScope(Dispatchers.Default+ SupervisorJob() + CoroutineExceptionHandler{ _, _ -> })
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
-
         _binding= LoadingFragmentBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -42,56 +40,23 @@ class LoadingFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.loadinglayout.show()
-        viewModel.getDataFromServerForDB().observe(viewLifecycleOwner, { renderData(it) })
-
-
-
-
-      /*  loadingFragmentCoroutineScope.launch {
-
-
-
-
-
-        }*/
+        viewModel.getDataFromServerForDB().observe(viewLifecycleOwner, { handleData(it) })
         runBlocking { loadingFragmentCoroutineScope.launch {
-            viewModel.getPairsList()
+            viewModel.getCurenciesPairsList()
             viewModel.getCrossCourses()
 
              }
-
-
         }
-
-
-
-
-
-
     }
-    /*fun main(args: Array<String>) = runBlocking { //(1)
-        val job = launch { //(2)
-            viewModel.getPairsList()
-            viewModel.getCrossCourses()
-            viewModel.getGlobalLIst()
-        }
-
-        job.join()
-    }
-    >> prints "The result: 5"*/
 
 
-
-   private fun renderData(data: AppState) {
+   private fun handleData(data: AppState) {
         when (data) {
             is AppState.Success -> {
                 viewModel.clearDB()
-                viewModel.putDataFromServer1CToLocalDatabase(data.listItem)
-                getGlobalList()
-                Toast.makeText(context,"Котировки загружены успешно",Toast.LENGTH_SHORT).apply {
-                    setGravity(Gravity.BOTTOM,0,250)
-                    show()
-                }
+                viewModel.putDataFromServerToLocalDatabase(data.listItem)
+                getCurrenciesList()
+                Toast.makeText(context,"Котировки загружены успешно",Toast.LENGTH_SHORT).show()
                 binding.loadinglayout.hide()
                 goToMainList(activity?.supportFragmentManager)
 
@@ -101,22 +66,16 @@ class LoadingFragment:Fragment() {
             }
             is AppState.Error -> {
                 binding.loadinglayout.show()
-                getGlobalList()
-                Toast.makeText(context,"Нет доступа к серверу, загруженные последние доступные котировки",Toast.LENGTH_SHORT).apply {
-                    setGravity(Gravity.BOTTOM,0,250)
-                    show()
-                }
+                getCurrenciesList()
+                Toast.makeText(context,"Нет доступа к серверу, загруженные последние доступные котировки",Toast.LENGTH_SHORT).show()
+
                 goToMainList(activity?.supportFragmentManager)
 
 
             }
         }
     }
-    private fun getGlobalList() = runBlocking { val job = launch {viewModel.getGlobalLIst()  }
-        job.join()
-
-    }
-    private fun getFavorites() = runBlocking { val job = launch {viewModel.getGlobalLIst()  }
+    private fun getCurrenciesList() = runBlocking { val job = launch {viewModel.getGlobalLIst()  }
         job.join()
 
     }
@@ -129,12 +88,8 @@ class LoadingFragment:Fragment() {
         manager?.beginTransaction()?.replace(R.id.container, MainFragment.newInstance(1))
             ?.addToBackStack("")?.commitAllowingStateLoss()
     }
-    private val loadingFragmentCoroutineScope =
-        CoroutineScope(Dispatchers.Default+ SupervisorJob() + CoroutineExceptionHandler{ _, _ -> handleError()})
 
 
-
-    private fun handleError() {}
     companion object {
         fun newInstance() = LoadingFragment()
 

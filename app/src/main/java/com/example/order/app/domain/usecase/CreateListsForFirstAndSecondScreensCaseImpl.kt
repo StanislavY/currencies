@@ -9,7 +9,7 @@ class CreateListsForFirstAndSecondScreensCaseImpl: CreateListsForFirstAndSecondS
     @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun getMainList(key: String): List<ListItem> {
 
-    val rememberedListItem:MutableList<ListItem> = GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS
+
         val listFrom1C= GlobalConstAndVars.GLOBAL_LIST
         val tempListItem:MutableList<ListItem> = mutableListOf()
         for (mainList in listFrom1C) {

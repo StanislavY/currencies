@@ -12,19 +12,20 @@ class GetSelectionResultCaseImpl: GetSelectionResultCase {
     private val localDataSource: LocalRepository = LocalRepositoryImpl(App.get1CDAO())
 
     @RequiresApi(Build.VERSION_CODES.N)
-    override fun rememberListOfChosenItems(listItem: ListItem): MutableList<ListItem> {
+    override fun executeAddingToFavorites(listItem: ListItem): MutableList<ListItem> {
         val rememberedListItem:MutableList<ListItem> = mutableListOf()
-         if (listItem.favorite == "0") {
-            listItem.favorite="1"
+         if (listItem.favorite == GlobalConstAndVars.ITS_NOT_FAVORITE) {
+            listItem.favorite=GlobalConstAndVars.ITS_FAVORITE
         }
-        else {listItem.favorite="0"
+        else {
+            listItem.favorite=GlobalConstAndVars.ITS_NOT_FAVORITE
         }
         rememberedListItem.add(listItem)
         GlobalConstAndVars.GLOBAL_LIST.forEach {
             if (it.id1 == listItem.id1&&it.id2==listItem.id2) {
                 it.favorite=listItem.favorite
             } }
-        val x=GlobalConstAndVars.GLOBAL_LIST
+
         GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS=rememberedListItem
         return GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS
     }

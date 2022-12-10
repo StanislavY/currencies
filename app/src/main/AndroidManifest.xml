@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Order">
 
         <activity
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:name=".ui.main.MainActivity"
             android:exported="true"
             >

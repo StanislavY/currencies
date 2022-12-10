@@ -1,10 +1,4 @@
 package com.example.order
-import com.example.order.core.GlobalConstAndVars
-import com.example.order.app.domain.model.ListItem
-import com.example.order.app.domain.usecase.CreateListOfAllItemsFrom1CDBCaseImpl
-import org.junit.Test
-
-import org.junit.Assert.*
 
 class Tests {
   /*  @Test

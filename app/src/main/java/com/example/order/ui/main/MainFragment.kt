@@ -8,7 +8,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.order.R
@@ -17,22 +16,17 @@ import com.example.order.app.domain.model.ListItemWithDoubles
 import com.example.order.app.domain.model.SearchItemStorage
 import com.example.order.app.domain.usecase.AppState
 import com.example.order.core.GlobalConstAndVars
-import com.example.order.core.GlobalConstAndVars.KEY_FOR_INFLATE_MAIN_LIST
-import com.example.order.core.GlobalConstAndVars.count
 import com.example.order.databinding.MainFragmentBinding
 import com.example.order.viewModel.MainViewModel
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_fragment.*
-import kotlinx.coroutines.*
-import java.util.*
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
-    var filterAbc = 0
-    var filter123 = 0
-
+    private var filterAbc = 0
+    private var filter123 = 0
+    private var lastSort=""
     private var _binding: MainFragmentBinding? = null
     private val binding
         get() = _binding!!
@@ -75,18 +69,31 @@ class MainFragment : Fragment() {
         })
         binding.apply {
             abcFilter.setOnClickListener {
-            SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sortAbc(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
+            SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sortAbc(viewModel.convertArrayListItemToListItem(SearchItemStorage.list)))
             updateSearch()}
             valueFilter.setOnClickListener {
-                SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sort123(viewModel.convertArrayListItemToMainList(SearchItemStorage.list)))
+                SearchItemStorage.list=viewModel.convertMainListToArrayListItem(sort123(viewModel.convertArrayListItemToListItem(SearchItemStorage.list)))
                 updateSearch()
             }
         }
         adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
                 viewModel.handleFavoriteButtonClick(listItem)
-                viewModel.putDataToResultDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
+                viewModel.makeItemFavoriteInDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
                 SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
+                /*if (lastSort == "") {
+                    SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
+                }
+                if(lastSort=="abc"){
+
+                    SearchItemStorage.list =viewModel.convertMainListToArrayListItem(sortAbc(GlobalConstAndVars.GLOBAL_LIST))
+                }
+                if (lastSort == "123") {
+                    SearchItemStorage.list =viewModel.convertMainListToArrayListItem(sort123(GlobalConstAndVars.GLOBAL_LIST))
+
+                }*/
+
+
                 updateSearch()
             }
         })
@@ -100,38 +107,38 @@ class MainFragment : Fragment() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_main_botom_bar, menu)
-    }
-
 
     private fun sortAbc(listToSort:List<ListItem>):List<ListItem> {
-
+        lastSort="abc"
         if (filterAbc == 0) {
             binding.abcFilter.setImageResource(R.drawable.sort_abc_down)
             filterAbc = 1
-           return listToSort.sortedByDescending { it.id1 }
-
+            GlobalConstAndVars.GLOBAL_LIST=listToSort.sortedByDescending { it.id1 }
+           return GlobalConstAndVars.GLOBAL_LIST
 
         } else
             filterAbc = 0
         binding.abcFilter.setImageResource(R.drawable.sort_abc_up)
-       return listToSort.sortedBy { it.id1 }
+        GlobalConstAndVars.GLOBAL_LIST=listToSort.sortedBy { it.id1 }
+       return GlobalConstAndVars.GLOBAL_LIST
     }
 
     private fun sort123(listToSort: List<ListItem>): List<ListItem> {
+        lastSort="123"
+
         if (filter123 == 0) {
             filter123 = 1
             binding.valueFilter.setImageResource(R.drawable.sort_123_down)
-            return convertFromDouble(convertToDouble(listToSort).sortedByDescending { it.value })
+            GlobalConstAndVars.GLOBAL_LIST=convertValueToStringInListItem(convertValueToDoubleInListItem(listToSort).sortedByDescending { it.value })
+            return GlobalConstAndVars.GLOBAL_LIST
 
         } else
             filter123 = 0
         binding.valueFilter.setImageResource(R.drawable.sort_123_up)
-        return convertFromDouble(convertToDouble(listToSort).sortedBy { it.value })
+        GlobalConstAndVars.GLOBAL_LIST=convertValueToStringInListItem(convertValueToDoubleInListItem(listToSort).sortedBy { it.value })
+        return GlobalConstAndVars.GLOBAL_LIST
     }
-    private fun convertToDouble(list:List<ListItem>):List<ListItemWithDoubles>{
+    private fun convertValueToDoubleInListItem(list:List<ListItem>):List<ListItemWithDoubles>{
 
        return list.map {
             ListItemWithDoubles(it.id1,
@@ -144,7 +151,7 @@ class MainFragment : Fragment() {
                 it.favorite)
         }
     }
-    private fun convertFromDouble(list:List<ListItemWithDoubles>):List<ListItem>{
+    private fun convertValueToStringInListItem(list:List<ListItemWithDoubles>):List<ListItem>{
         return list.map {
             ListItem(it.id1,
                 it.id2,
@@ -161,22 +168,30 @@ class MainFragment : Fragment() {
 
         val etSearchBar = binding.inputEditText
         val s = etSearchBar.text
-        val listToFilter=viewModel.convertArrayListItemToMainList(SearchItemStorage.list)
+        val listToFilter=viewModel.convertArrayListItemToListItem(SearchItemStorage.list)
         if (s?.length == 0&&tab_main.selectedTabPosition==0) {
+
+
+
+            /*viewModel.postPopularList(listToFilter)*/
            adapter.setListItem(listToFilter)
-            return viewModel.convertArrayListItemToMainList(SearchItemStorage.list)
+            return listToFilter
         }
         if (s?.length !=0&&tab_main.selectedTabPosition==0) {
+          /*  viewModel.postPopularList(filterList(listToFilter,s))*/
                adapter.setListItem(filterList(listToFilter,s)
 
                 )
                 return filterList(listToFilter,s)
             }
         if (s?.length == 0&&tab_main.selectedTabPosition==1) {
+           /* viewModel.postFavoriteList(listToFilter.filter { it.favorite == "1" })*/
             adapter.setListItem(listToFilter.filter { it.favorite == "1" })
-           return viewModel.convertArrayListItemToMainList(SearchItemStorage.list).filter { it.favorite == "1" }
+           return listToFilter.filter { it.favorite == "1" }
         }
         if (s?.length !=0&&tab_main.selectedTabPosition==1) {
+            /*viewModel.postFavoriteList(filterList(listToFilter.filter { it.favorite == "1" },s))*/
+
              adapter.setListItem(filterList(listToFilter.filter { it.favorite == "1" },s)
                 )
             return filterList(listToFilter.filter { it.favorite == "1" },s)
@@ -209,8 +224,8 @@ class MainFragment : Fragment() {
             is AppState.Loading -> {
             }
             is AppState.Error -> {
-                toast(data.error.message)
-
+                Toast.makeText(context, data.error.message, Toast.LENGTH_LONG).
+                show()
             }
 
         }
@@ -222,15 +237,6 @@ class MainFragment : Fragment() {
         fun onItemViewClick(listItem: ListItem)
     }
 
-   private fun Fragment.toast(string: String?) {
-     fun handleError() {}
-       val fragmentCoroutineScope = CoroutineScope(
-           Dispatchers.Main+ SupervisorJob() + CoroutineExceptionHandler { _, _ -> handleError() })
-
-        fragmentCoroutineScope.launch { Toast.makeText(context, string, Toast.LENGTH_LONG).
-        show() }
-
-    }
 
     private fun setLayoutParams(){
         val params = binding.mainFragmentRecyclerView.layoutParams as ConstraintLayout.LayoutParams
