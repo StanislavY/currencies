@@ -6,50 +6,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
-    <!--<com.google.android.material.tabs.TabLayout
 
-
-        android:id="@+id/tab_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-
-
-
-
-
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-
-            android:icon="@drawable/popular_currencies_list"
-            android:text="@string/popular_currencies_list_title"
-
-            >
-
-
-
-        </com.google.android.material.tabs.TabItem>
-
-         <com.google.android.material.tabs.TabItem
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-
-
-             android:icon="@drawable/ic_baseline_star_rate_24"
-             android:text="@string/favorite_title"
-             >
-
-         </com.google.android.material.tabs.TabItem>
-
-
-    </com.google.android.material.tabs.TabLayout>
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

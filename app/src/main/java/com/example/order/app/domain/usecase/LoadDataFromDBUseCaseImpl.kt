@@ -6,7 +6,7 @@ import com.example.order.app.domain.model.ListItem
 import com.example.order.core.App
 import javax.inject.Inject
 
-class LoadDataFromDBUseCaseImpl @Inject constructor():LoadDataFrom1CCase {
+class LoadDataFromDBUseCaseImpl @Inject constructor():LoadDataFromDBUseCase {
     private val localRepository:LocalRepository=LocalRepositoryImpl(App.get1CDAO())
     override fun executeDeletingDataFromDb() {
         localRepository.deleteAllData()

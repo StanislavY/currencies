@@ -1,4 +1,4 @@
-package com.example.order.viewModel
+package com.example.order.ui.main.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,11 +18,12 @@ open class MainViewModel @Inject constructor (
 
 
 ) : ViewModel() {
+    private val listOfChosenItems:OperationsWithListsUseCase=OperationsWithListsUseCaseImpl()
     private val createLists: OperationsWithListsUseCase = OperationsWithListsUseCaseImpl()
-    private val makeResultCase: GetSelectionResultCase = GetSelectionResultCaseImpl()
+    private val makeResultCase: FavoriteLogicUseCase = FavoriteLogicUseCasempl()
     private val liveDatatoObserve: MutableLiveData<AppState> = MutableLiveData()
 
-    private val converters: Converters = Converters()
+    private val converters: ConvertersUseCase = ConvertersUseCase()
 
     private val viewModelCoroutineScope = CoroutineScope(
         Dispatchers.Default+ SupervisorJob()+ CoroutineExceptionHandler { _, _ ->  })
@@ -33,11 +34,12 @@ open class MainViewModel @Inject constructor (
         return liveDatatoObserve
     }
 
+
     fun processTheSelectedItem() = sendDataToList()
 
     private fun sendDataToList() {
         viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
-            AppState.Success(createLists.getMainList(
+            AppState.Success(createLists.executeGetMainList(
            ))) }
     }
    fun sendDataToList(list:List<ListItem>) {
@@ -50,7 +52,7 @@ open class MainViewModel @Inject constructor (
 
     }
     fun convertArrayListItemToListItem(itemList: ArrayList<SearchItem>): List<ListItem> {
-        return converters.convertItemStorageToMainList(itemList)
+        return converters.convertItemStorageToListItem(itemList)
 
     }
     fun handleFavoriteButtonClick(listItem:ListItem){
@@ -60,6 +62,13 @@ open class MainViewModel @Inject constructor (
 
     fun makeItemFavoriteInDB(data:MutableList<ListItem>) {
         makeResultCase.executeMakingItemFavorite(data)
+
+    }
+    fun getListOfChosenItems():MutableList<ListItem>{
+        var list: MutableList<ListItem> = mutableListOf()
+        viewModelCoroutineScope.launch {
+          list=  listOfChosenItems.executeGetChosenItems() }
+        return list
 
     }
 

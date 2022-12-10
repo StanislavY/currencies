@@ -8,13 +8,15 @@ import com.example.order.repository.LocalRepositoryImpl
 import javax.inject.Inject
 
 class CreateListOfAllItemsDBUseCaseImpl @Inject constructor(
-        private val converters:Converters): CreateListOfAllItemsUseCase {
+       ): CreateListOfAllItemsUseCase {
+    private val converters:ConvertersUseCase=ConvertersUseCase()
     private val localRepository1C: LocalRepository = LocalRepositoryImpl(App.get1CDAO())
+    private val getAndSetGlobalList:OperationsWithListsUseCase=OperationsWithListsUseCaseImpl()
 
     override suspend fun getCurrenciesList(): List<ListItem> {
-           GlobalConstAndVars.GLOBAL_LIST=fillFlagsFavoritesAndCountriesInCurList(localRepository1C.getAllDataDB1CEntity())
 
-        return GlobalConstAndVars.GLOBAL_LIST
+
+        return getAndSetGlobalList.executeSetMainList(fillFlagsFavoritesAndCountriesInCurList(localRepository1C.getAllDataDB1CEntity()))
     }
     private fun fillFlagsFavoritesAndCountriesInCurList(listFromDB:List<ListItem>):List<ListItem>{
        listFromDB.forEach { gl->gl.apply {//заполняем флаги и наименования валют в списке валют

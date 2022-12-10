@@ -8,7 +8,7 @@ import com.example.order.repository.LocalRepository
 import com.example.order.repository.LocalRepositoryImpl
 import com.example.order.core.App
 
-class GetSelectionResultCaseImpl: GetSelectionResultCase {
+class FavoriteLogicUseCasempl: FavoriteLogicUseCase {
     private val localDataSource: LocalRepository = LocalRepositoryImpl(App.get1CDAO())
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -33,10 +33,6 @@ class GetSelectionResultCaseImpl: GetSelectionResultCase {
     override fun executeMakingItemFavorite(data:MutableList<ListItem>) {
         localDataSource.writeFavoriteToDb(data)
 
-    }
-
-    override fun getAllDataDBResultEntityToListItem():List<ListItem> {
-        return localDataSource.getAllUnfinishedDataDBResultEntityToMainList()
     }
 
 

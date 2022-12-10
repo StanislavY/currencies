@@ -11,27 +11,10 @@ object GlobalConstAndVars {
     const val API_KEY ="39019b3af300a1027141bb1d9eb2354e"//так сделал в демонстрационных целях
     const val FIRST_INDEX_OF_SECOND_CURRENCY=3
     const val FIRST_INDEX_OF_CROSSCOUSE=6
-
-    const val DEFAULT_VALUE: String = "0"
-    var PAIRS_lIST=""
-    var listItemFromDb:List<ListItem> = mutableListOf()
-    var LIST_KEY: String = DEFAULT_VALUE
-
     var LIST_OF_CHOSEN_ITEMS: MutableList<ListItem> = mutableListOf()
     var DATABASE1C_NAME: String = "Database1C.db"
-    /*const val STEP_FOR_WORK_LIST=0.01*///не удалять - может понадобиться
-    /*const val NUMBERS_OF_VALUES_FOR_WORK_LIST=3000*///не удалять - может понадобиться
-    const val STEP_FOR_WORKED_HOURS=1.0
-    const val NUMBERS_OF_VALUES_FOR_WORKED_HOURS=50
     val DEFAULT_lIST= listOf(ListItem("","","","","","","",""))
-    var DATE_OF_ORDER=""
     var GLOBAL_LIST= DEFAULT_lIST
-    var LIST_OF_ITEMS_FOR_FIRST_AND_SECOND_SCREENS:List<ListItem> = mutableListOf()
-    const val DEFAULT_VALUE_FOR_GENERATED_LIST="0"
-    var LIST_OF_FINISHED_ORDERS = listOf<ServerResponseData>()
-    const val MARKER_OF_FINISHED_ORDER="1"
-    var WORKED_OUT:String=""
-    var SWITCH_FOR_ORDERS_LIST=0
     val COUNTRIES_AND_CURRENCIES_lIST = listOf(
         ListItem("MGA","Мадагаскар","","mg","","","","Ариари"),
         ListItem("AFN","Афганистан","","af","","","","Афгани"),

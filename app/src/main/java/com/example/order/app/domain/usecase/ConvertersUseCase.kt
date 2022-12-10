@@ -12,7 +12,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-open class Converters @Inject constructor() : ViewModel() {
+open class ConvertersUseCase @Inject constructor() : ViewModel() {
 
     fun converterFromStringToMutableListItem(stringToConvert: String): List<ListItem> {
         return stringToConvert.removeRange(0..28).replace(" ", "").replace("=", "").dropLast(2)
@@ -22,60 +22,11 @@ open class Converters @Inject constructor() : ViewModel() {
                 it.removeRange(GlobalConstAndVars.FIRST_INDEX_OF_CROSSCOUSE..it.lastIndex)
                     .removeRange(0 until GlobalConstAndVars.FIRST_INDEX_OF_SECOND_CURRENCY),
                 "",
-                it.removeRange(0..5)/*.replace(".",",")*/, "", "", "", "")
+                it.removeRange(0..5), "", "", "", "")
         }
 
     }
 
-
-
-    fun converterFromResponseServerToMainList(serverResponse: ServerResponseData?): List<ListItem> {
-        val convertedListItem: MutableList<ListItem> = mutableListOf()
-
-
-        serverResponse?.id1?.map { ListItem(it, "Список валют", "", "", "", "", "", "") }
-
-
-
-
-
-
-        return convertedListItem
-
-    }
-
-    /* private fun convertMainListFromStrings (id1:ServerResponseData):ListItem{
-        return ListItem(id1!!,id2!!,name!!, value!!)
-
-    }*/
-    fun convertMainListToEntityDB1C(
-        id1: String,
-        id2: String,
-        name: String,
-        value: String,
-        secondCurFlag:String,
-        countryFirstCur:String,
-        countrySecondCur:String,
-        favorite:String
-
-
-    ): DatabaseFrom1CEntity {
-        val databaseFrom1CEntity =
-            DatabaseFrom1CEntity("", "", "", "", "", "", "", "")
-
-        databaseFrom1CEntity.id1 = id1
-        databaseFrom1CEntity.id2 = id2
-        databaseFrom1CEntity.name = name
-        databaseFrom1CEntity.value = value
-        databaseFrom1CEntity.secondCurFlag=secondCurFlag
-        databaseFrom1CEntity.countryFirstCur=countryFirstCur
-        databaseFrom1CEntity.countrySecondCur=countrySecondCur
-        databaseFrom1CEntity.favorite=favorite
-
-
-
-        return databaseFrom1CEntity
-    }
 
     fun convertEntityDB1CToMainList(entityList: List<DatabaseFrom1CEntity>): List<ListItem> {
         return entityList.map {
@@ -117,44 +68,48 @@ open class Converters @Inject constructor() : ViewModel() {
 
     }
 
-    fun convertItemStorageToMainList(arrayList:ArrayList<SearchItem>):List<ListItem>{
-        val mainList= mutableListOf<ListItem>()
-        for (item in arrayList) {
-            mainList.add(ListItem(
-                item.id1.toString(),
-                item.id2.toString(),
-                item.name.toString(),
-                item.value.toString(),
-                item.secondCurFlag.toString(),
-                item.countryFirstCur.toString(),
-                item.countrySecondCur.toString(),
-                item.favorite.toString()))
+    fun convertItemStorageToListItem(arrayList:ArrayList<SearchItem>):List<ListItem>{
 
-
-        }
-        return mainList
+        return  arrayList.map { ListItem(
+            it.id1.toString(),
+            it.id2.toString(),
+            it.name.toString(),
+            it.value.toString(),
+            it.secondCurFlag.toString(),
+            it.countryFirstCur.toString(),
+            it.countrySecondCur.toString(),
+            it.favorite.toString()) }
 
     }
-    fun convertEntityResultToMainListForOrederList(entityList: List<ResultEntity>):List<ListItem>{
-        return entityList.map {  ListItem(it.uid, it.id1, it.name, it.value,"","","","") }
-    }
-
-
-
-
-    private fun swapValuesForOrdersListCreating(
+    fun convertMainListToEntityDB1C(
         id1: String,
         id2: String,
         name: String,
         value: String,
-        uid: String
-    ): ListItem {
+        secondCurFlag:String,
+        countryFirstCur:String,
+        countrySecondCur:String,
+        favorite:String
 
-        return ListItem("0", uid, name, value,"","","","")
+
+    ): DatabaseFrom1CEntity {
+        val databaseFrom1CEntity =
+            DatabaseFrom1CEntity("", "", "", "", "", "", "", "")
+
+
+        databaseFrom1CEntity.id1 = id1
+        databaseFrom1CEntity.id2 = id2
+        databaseFrom1CEntity.name = name
+        databaseFrom1CEntity.value = value
+        databaseFrom1CEntity.secondCurFlag=secondCurFlag
+        databaseFrom1CEntity.countryFirstCur=countryFirstCur
+        databaseFrom1CEntity.countrySecondCur=countrySecondCur
+        databaseFrom1CEntity.favorite=favorite
+
+
+
+        return databaseFrom1CEntity
     }
-
-
-
 
 
 }

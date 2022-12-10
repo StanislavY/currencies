@@ -1,4 +1,4 @@
-package com.example.order.viewModel
+package com.example.order.ui.main.loading
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,9 +21,9 @@ import kotlin.coroutines.suspendCoroutine
 @HiltViewModel
 class LoadingViewModel @Inject constructor (
     private val retrofit1C:Retrofit1C,
-    private val converters: Converters,
+    private val converters: ConvertersUseCase,
     private val createGlobalListCase: CreateListOfAllItemsUseCase = CreateListOfAllItemsDBUseCaseImpl(),
-    private val loadFrom1CtoDBCase:LoadDataFrom1CCase=LoadDataFromDBUseCaseImpl()
+    private val loadFrom1CtoDBCase:LoadDataFromDBUseCase=LoadDataFromDBUseCaseImpl()
 
 ):ViewModel() {
     val liveDataToObserve:MutableLiveData<AppState> = MutableLiveData()

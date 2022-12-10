@@ -10,7 +10,6 @@ interface LocalRepository {
     fun getAllUnfinishedDataDBResultEntityToMainList():List<ListItem>
     fun putDataDBFromListItem(resultListItem:List<ListItem>)
     fun writeFavoriteToDb(resultListItem:List<ListItem>)
-    fun getAllUnfinishedDataDBResultEntity():List<ResultEntity>
     fun insertToDBResultFromResultEntity(data: ResultEntity)
     fun getAllDatafromDBResult():List<ResultEntity>
 

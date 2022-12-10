@@ -2,9 +2,8 @@ package com.example.order.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.example.order.databinding.MainActivityBinding
-import com.google.android.material.tabs.TabLayout
+import com.example.order.ui.main.loading.LoadingFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

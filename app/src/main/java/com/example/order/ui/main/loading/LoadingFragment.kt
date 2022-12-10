@@ -1,4 +1,4 @@
-package com.example.order.ui.main
+package com.example.order.ui.main.loading
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.order.R
 import com.example.order.app.domain.usecase.AppState
 import com.example.order.databinding.LoadingFragmentBinding
-import com.example.order.viewModel.LoadingViewModel
+import com.example.order.ui.main.hide
+import com.example.order.ui.main.main.MainFragment
+import com.example.order.ui.main.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 @AndroidEntryPoint
@@ -19,7 +21,7 @@ import kotlinx.coroutines.*
 class LoadingFragment:Fragment() {
     private var _binding:LoadingFragmentBinding?=null
     private val binding get()=_binding!!
-    private val viewModel:LoadingViewModel by lazy { ViewModelProvider(this).get(LoadingViewModel::class.java) }
+    private val viewModel: LoadingViewModel by lazy { ViewModelProvider(this).get(LoadingViewModel::class.java) }
     private val loadingFragmentCoroutineScope =
         CoroutineScope(Dispatchers.Default+ SupervisorJob() + CoroutineExceptionHandler{ _, _ -> })
 

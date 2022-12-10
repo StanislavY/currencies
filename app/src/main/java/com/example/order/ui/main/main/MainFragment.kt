@@ -1,4 +1,4 @@
-package com.example.order.ui.main
+package com.example.order.ui.main.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,9 +15,10 @@ import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.model.ListItemWithDoubles
 import com.example.order.app.domain.model.SearchItemStorage
 import com.example.order.app.domain.usecase.AppState
+import com.example.order.app.domain.usecase.OperationsWithListsUseCase
+import com.example.order.app.domain.usecase.OperationsWithListsUseCaseImpl
 import com.example.order.core.GlobalConstAndVars
 import com.example.order.databinding.MainFragmentBinding
-import com.example.order.viewModel.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -28,6 +29,7 @@ class MainFragment : Fragment() {
 
     private var filterAbc = 0
     private var filter123 = 0
+
 
     private var _binding: MainFragmentBinding? = null
     private val binding
@@ -81,7 +83,7 @@ class MainFragment : Fragment() {
         adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
                 viewModel.handleFavoriteButtonClick(listItem)
-                viewModel.makeItemFavoriteInDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
+                viewModel.makeItemFavoriteInDB(viewModel.getListOfChosenItems())
                 SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
                 updateSearch()
             }

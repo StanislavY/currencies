@@ -3,11 +3,6 @@ package com.example.order.ui.main
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
-fun View.showSnackBar(text: String, actionText: String, action: (View) -> Unit){
-    Snackbar.make(this, text, Snackbar.LENGTH_INDEFINITE)
-        .setAction(actionText, action).show()
-}
-
 fun View.show(): View{
     if (visibility != View.VISIBLE){
         visibility = View.VISIBLE

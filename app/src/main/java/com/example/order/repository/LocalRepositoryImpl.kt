@@ -4,14 +4,14 @@ import com.example.order.app.domain.model.ListItem
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CDAO
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
-import com.example.order.app.domain.usecase.Converters
+import com.example.order.app.domain.usecase.ConvertersUseCase
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LocalRepositoryImpl @Inject constructor(private val localDataSource: DatabaseFrom1CDAO) : LocalRepository {
 
-    private val converter: Converters = Converters()
+    private val converter: ConvertersUseCase = ConvertersUseCase()
     override fun putDataFromServerToLocalDatabase(listItemFromServer: List<ListItem>) {
        for (mainList in listItemFromServer) {
            val data:DatabaseFrom1CEntity=converter.convertMainListToEntityDB1C(mainList.id1,mainList.id2,mainList.name,mainList.value,mainList.secondCurFlag,mainList.countryFirstCur,mainList.countrySecondCur,mainList.favorite)
@@ -58,10 +58,6 @@ class LocalRepositoryImpl @Inject constructor(private val localDataSource: Datab
         }
     }
 
-
-    override fun getAllUnfinishedDataDBResultEntity(): List<ResultEntity> {
-        return localDataSource.getAllUnfinishedResult()
-    }
 
     override fun insertToDBResultFromResultEntity(data: ResultEntity){
         localDataSource.insertDataToResult(data)

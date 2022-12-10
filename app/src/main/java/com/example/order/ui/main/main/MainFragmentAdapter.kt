@@ -1,14 +1,12 @@
-package com.example.order.ui.main
+package com.example.order.ui.main.main
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.order.R
 import com.example.order.app.domain.model.ListItem
 import com.example.order.core.App
-import com.example.order.core.GlobalConstAndVars
 import com.example.order.databinding.MainItemBinding
 import kotlinx.android.synthetic.main.main_item.view.*
 
