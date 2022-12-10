@@ -21,7 +21,7 @@ open class MainViewModel @Inject constructor (
 ) : ViewModel() {
     private val createLists: CreateListsForFirstAndSecondScreensCase = CreateListsForFirstAndSecondScreensCaseImpl()
     private val makeResultCase: GetSelectionResultCase = GetSelectionResultCaseImpl()
-    private val liveDataPopular: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDatatoObserve: MutableLiveData<AppState> = MutableLiveData()
     private val liveDataFavorite:MutableLiveData<AppState> = MutableLiveData()
     private val liveDataLastSort:MutableLiveData<String> = MutableLiveData()
     private val converters: Converters = Converters()
@@ -31,25 +31,22 @@ open class MainViewModel @Inject constructor (
 
 
     fun processAppState(): LiveData<AppState> {
-        liveDataPopular.value = AppState.Loading(null)
-        return liveDataPopular
+        liveDatatoObserve.value = AppState.Loading(null)
+        return liveDatatoObserve
     }
 
-    fun processTheSelectedItem() = requestData()
+    fun processTheSelectedItem() = sendDataToList()
 
-    private fun requestData() {
-        viewModelCoroutineScope.launch {   liveDataPopular.postValue(
+    private fun sendDataToList() {
+        viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
             AppState.Success(createLists.getMainList(
             GlobalConstAndVars.LIST_KEY))) }
     }
-   fun postPopularList(list:List<ListItem>) {
-        viewModelCoroutineScope.launch {   liveDataPopular.postValue(
+   fun sendDataToList(list:List<ListItem>) {
+        viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
             AppState.Success(list)) }
     }
-    fun postFavoriteList(list:List<ListItem>) {
-        viewModelCoroutineScope.launch {   liveDataFavorite.postValue(
-            AppState.Success(list)) }
-    }
+
     fun convertMainListToArrayListItem(listItem: List<ListItem>): ArrayList<SearchItem> {
         return converters.convertListItemToItemStorage(listItem)
 

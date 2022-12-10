@@ -24,6 +24,8 @@ import kotlinx.android.synthetic.main.main_fragment.*
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
+    private var entryCount=0
+
     private var filterAbc = 0
     private var filter123 = 0
     private var lastSort=""
@@ -81,19 +83,6 @@ class MainFragment : Fragment() {
                 viewModel.handleFavoriteButtonClick(listItem)
                 viewModel.makeItemFavoriteInDB(GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS)
                 SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
-                /*if (lastSort == "") {
-                    SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
-                }
-                if(lastSort=="abc"){
-
-                    SearchItemStorage.list =viewModel.convertMainListToArrayListItem(sortAbc(GlobalConstAndVars.GLOBAL_LIST))
-                }
-                if (lastSort == "123") {
-                    SearchItemStorage.list =viewModel.convertMainListToArrayListItem(sort123(GlobalConstAndVars.GLOBAL_LIST))
-
-                }*/
-
-
                 updateSearch()
             }
         })
@@ -169,32 +158,24 @@ class MainFragment : Fragment() {
         val etSearchBar = binding.inputEditText
         val s = etSearchBar.text
         val listToFilter=viewModel.convertArrayListItemToListItem(SearchItemStorage.list)
+
         if (s?.length == 0&&tab_main.selectedTabPosition==0) {
-
-
-
-            /*viewModel.postPopularList(listToFilter)*/
-           adapter.setListItem(listToFilter)
+        viewModel.sendDataToList(listToFilter)
             return listToFilter
         }
         if (s?.length !=0&&tab_main.selectedTabPosition==0) {
-          /*  viewModel.postPopularList(filterList(listToFilter,s))*/
-               adapter.setListItem(filterList(listToFilter,s)
-
-                )
-                return filterList(listToFilter,s)
+            viewModel.sendDataToList(filterList(listToFilter,s))
+                   return filterList(listToFilter,s)
             }
         if (s?.length == 0&&tab_main.selectedTabPosition==1) {
-           /* viewModel.postFavoriteList(listToFilter.filter { it.favorite == "1" })*/
-            adapter.setListItem(listToFilter.filter { it.favorite == "1" })
-           return listToFilter.filter { it.favorite == "1" }
+            viewModel.sendDataToList(listToFilter.filter { it.favorite == GlobalConstAndVars.ITS_FAVORITE })
+
+           return listToFilter.filter { it.favorite == GlobalConstAndVars.ITS_FAVORITE}
         }
         if (s?.length !=0&&tab_main.selectedTabPosition==1) {
-            /*viewModel.postFavoriteList(filterList(listToFilter.filter { it.favorite == "1" },s))*/
+            viewModel.sendDataToList(filterList(listToFilter.filter { it.favorite == GlobalConstAndVars.ITS_FAVORITE },s))
 
-             adapter.setListItem(filterList(listToFilter.filter { it.favorite == "1" },s)
-                )
-            return filterList(listToFilter.filter { it.favorite == "1" },s)
+            return filterList(listToFilter.filter { it.favorite == GlobalConstAndVars.ITS_FAVORITE },s)
             }
 
         return GlobalConstAndVars.DEFAULT_lIST
@@ -215,11 +196,16 @@ class MainFragment : Fragment() {
 
     }
 
+
+
     private fun renderList(data: AppState) {
         when (data) {
             is AppState.Success -> {
                adapter.setListItem(data.listItem)
-                SearchItemStorage.list=viewModel.convertMainListToArrayListItem(data.listItem)
+                if (entryCount==0){
+                    SearchItemStorage.list=viewModel.convertMainListToArrayListItem(data.listItem)
+                    entryCount++
+                    }
             }
             is AppState.Loading -> {
             }
