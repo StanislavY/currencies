@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.SearchItem
 import com.example.order.core.GlobalConstAndVars
 import com.example.order.app.domain.model.ListItem
+import com.example.order.app.domain.model.ListItemWithDoubles
 import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
 import com.example.order.datasource.Room.DatabaseResult.ResultEntity
 import com.example.order.datasource.Server.ServerResponseData
@@ -25,6 +26,8 @@ open class Converters @Inject constructor() : ViewModel() {
         }
 
     }
+
+
 
     fun converterFromResponseServerToMainList(serverResponse: ServerResponseData?): List<ListItem> {
         val convertedListItem: MutableList<ListItem> = mutableListOf()

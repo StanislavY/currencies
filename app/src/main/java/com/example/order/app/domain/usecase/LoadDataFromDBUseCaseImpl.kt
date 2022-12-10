@@ -13,6 +13,6 @@ class LoadDataFromDBUseCaseImpl @Inject constructor():LoadDataFrom1CCase {
     }
 
     override fun executeDownloadingDataFromServerToDB(listItemFromServer:List<ListItem>) {
-        localRepository.putDataFromServer1CToLocalDatabase(listItemFromServer)
+        localRepository.putDataFromServerToLocalDatabase(listItemFromServer)
     }
 }

@@ -12,7 +12,7 @@ import javax.inject.Singleton
 class LocalRepositoryImpl @Inject constructor(private val localDataSource: DatabaseFrom1CDAO) : LocalRepository {
 
     private val converter: Converters = Converters()
-    override fun putDataFromServer1CToLocalDatabase(listItemFromServer: List<ListItem>) {
+    override fun putDataFromServerToLocalDatabase(listItemFromServer: List<ListItem>) {
        for (mainList in listItemFromServer) {
            val data:DatabaseFrom1CEntity=converter.convertMainListToEntityDB1C(mainList.id1,mainList.id2,mainList.name,mainList.value,mainList.secondCurFlag,mainList.countryFirstCur,mainList.countrySecondCur,mainList.favorite)
             insertToDB(data)
@@ -49,7 +49,7 @@ class LocalRepositoryImpl @Inject constructor(private val localDataSource: Datab
 
     }
 
-    override fun putDataToResultDBFromListItem(resultListItem: List<ListItem>) {
+    override fun writeFavoriteToDb(resultListItem: List<ListItem>) {
         val data=converter.convertRemListToResultEntity(resultListItem)
         for (mainList in data) {
 

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.model.SearchItem
 import com.example.order.app.domain.usecase.*
-import com.example.order.core.GlobalConstAndVars
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -19,11 +18,10 @@ open class MainViewModel @Inject constructor (
 
 
 ) : ViewModel() {
-    private val createLists: CreateListsForFirstAndSecondScreensCase = CreateListsForFirstAndSecondScreensCaseImpl()
+    private val createLists: OperationsWithListsUseCase = OperationsWithListsUseCaseImpl()
     private val makeResultCase: GetSelectionResultCase = GetSelectionResultCaseImpl()
     private val liveDatatoObserve: MutableLiveData<AppState> = MutableLiveData()
-    private val liveDataFavorite:MutableLiveData<AppState> = MutableLiveData()
-    private val liveDataLastSort:MutableLiveData<String> = MutableLiveData()
+
     private val converters: Converters = Converters()
 
     private val viewModelCoroutineScope = CoroutineScope(
@@ -40,7 +38,7 @@ open class MainViewModel @Inject constructor (
     private fun sendDataToList() {
         viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
             AppState.Success(createLists.getMainList(
-            GlobalConstAndVars.LIST_KEY))) }
+           ))) }
     }
    fun sendDataToList(list:List<ListItem>) {
         viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
@@ -61,7 +59,7 @@ open class MainViewModel @Inject constructor (
     }
 
     fun makeItemFavoriteInDB(data:MutableList<ListItem>) {
-        makeResultCase.putListOfChosenItemToDB(data)
+        makeResultCase.executeMakingItemFavorite(data)
 
     }
 

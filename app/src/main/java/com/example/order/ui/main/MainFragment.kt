@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
 
     private var filterAbc = 0
     private var filter123 = 0
-    private var lastSort=""
+
     private var _binding: MainFragmentBinding? = null
     private val binding
         get() = _binding!!
@@ -98,7 +98,7 @@ class MainFragment : Fragment() {
 
 
     private fun sortAbc(listToSort:List<ListItem>):List<ListItem> {
-        lastSort="abc"
+
         if (filterAbc == 0) {
             binding.abcFilter.setImageResource(R.drawable.sort_abc_down)
             filterAbc = 1
@@ -112,8 +112,38 @@ class MainFragment : Fragment() {
        return GlobalConstAndVars.GLOBAL_LIST
     }
 
+    fun convertValueToDoubleInListItem(list:List<ListItem>):List<ListItemWithDoubles>{
+
+        return list.map {
+            ListItemWithDoubles(it.id1,
+                it.id2,
+                it.name,
+                it.value.toDouble(),
+                it.secondCurFlag,
+                it.countryFirstCur,
+                it.countrySecondCur,
+                it.favorite)
+        }
+    }
+    fun convertValueToStringInListItem(list:List<ListItemWithDoubles>):List<ListItem>{
+        return list.map {
+            ListItem(it.id1,
+                it.id2,
+                it.name,
+                it.value.toString(),
+                it.secondCurFlag,
+                it.countryFirstCur,
+                it.countrySecondCur,
+                it.favorite)
+        }
+    }
+
+
+
+
+
     private fun sort123(listToSort: List<ListItem>): List<ListItem> {
-        lastSort="123"
+
 
         if (filter123 == 0) {
             filter123 = 1
@@ -127,31 +157,7 @@ class MainFragment : Fragment() {
         GlobalConstAndVars.GLOBAL_LIST=convertValueToStringInListItem(convertValueToDoubleInListItem(listToSort).sortedBy { it.value })
         return GlobalConstAndVars.GLOBAL_LIST
     }
-    private fun convertValueToDoubleInListItem(list:List<ListItem>):List<ListItemWithDoubles>{
 
-       return list.map {
-            ListItemWithDoubles(it.id1,
-                it.id2,
-                it.name,
-                it.value.toDouble(),
-                it.secondCurFlag,
-                it.countryFirstCur,
-                it.countrySecondCur,
-                it.favorite)
-        }
-    }
-    private fun convertValueToStringInListItem(list:List<ListItemWithDoubles>):List<ListItem>{
-        return list.map {
-            ListItem(it.id1,
-                it.id2,
-                it.name,
-                it.value.toString(),
-                it.secondCurFlag,
-                it.countryFirstCur,
-                it.countrySecondCur,
-                it.favorite)
-        }
-    }
 
     private fun updateSearch():List<ListItem> {
 

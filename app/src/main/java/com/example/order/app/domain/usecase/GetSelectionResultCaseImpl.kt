@@ -29,28 +29,9 @@ class GetSelectionResultCaseImpl: GetSelectionResultCase {
         GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS=rememberedListItem
         return GlobalConstAndVars.LIST_OF_CHOSEN_ITEMS
     }
-    override fun makeOrderFinished() {
-      /*  val listOfUnfinishedOrders = localDataSource.getAllUnfinishedDataDBResultEntity()
-        for (orderFromDB in listOfUnfinishedOrders) {
-            for (orderFromServer in GlobalConstAndVars.LIST_OF_FINISHED_ORDERS) {
-                if (orderFromDB.uid == orderFromServer.id2) {
-                    val tempResult= ResultEntity(orderFromDB.id1,orderFromDB.id2,orderFromDB.name,
-                        GlobalConstAndVars.MARKER_OF_FINISHED_ORDER,orderFromDB.uid)
-                    localDataSource.insertToDBResultFromResultEntity(tempResult)
 
-                }
-
-
-
-            }
-
-        }
-*/
-
-    }
-
-    override fun putListOfChosenItemToDB(data:MutableList<ListItem>) {
-        localDataSource.putDataToResultDBFromListItem(data)
+    override fun executeMakingItemFavorite(data:MutableList<ListItem>) {
+        localDataSource.writeFavoriteToDb(data)
 
     }
 

@@ -49,11 +49,7 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
         viewType: Int,
     ): MainViewHolder {
 
-
-
         val binding = MainItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-
         return MainViewHolder(binding)
     }
 
@@ -64,11 +60,6 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
         @SuppressLint("SetTextI18n")
         fun bind(listItem: ListItem) {
 
-
-
-
-
-
             binding.apply {
 
                 listItem.name=writeFileIDtoList(listItem.name)
@@ -78,12 +69,6 @@ class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
                 quantitySecondCur.text=listItem.value
                 tickerSecondCur.text=listItem.id2
                 flagOfSecondCur.setImageResource(listItem.secondCurFlag.toInt())
-
-
-
-
-
-
                 binding.favoriteButton.setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(listItem)
                 }
