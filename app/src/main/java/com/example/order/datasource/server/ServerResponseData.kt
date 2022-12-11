@@ -1,4 +1,4 @@
-package com.example.order.datasource.Server
+package com.example.order.datasource.server
 
 import com.google.gson.annotations.SerializedName
 import javax.inject.Inject

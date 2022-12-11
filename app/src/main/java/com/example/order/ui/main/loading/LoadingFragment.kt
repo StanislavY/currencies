@@ -21,7 +21,7 @@ import kotlinx.coroutines.*
 class LoadingFragment:Fragment() {
     private var _binding:LoadingFragmentBinding?=null
     private val binding get()=_binding!!
-    private val viewModel: LoadingViewModel by lazy { ViewModelProvider(this).get(LoadingViewModel::class.java) }
+    private val viewModel: LoadingViewModel by lazy { ViewModelProvider(this)[LoadingViewModel::class.java] }
     private val loadingFragmentCoroutineScope =
         CoroutineScope(Dispatchers.Default+ SupervisorJob() + CoroutineExceptionHandler{ _, _ -> })
 
@@ -44,7 +44,7 @@ class LoadingFragment:Fragment() {
         binding.loadinglayout.show()
         viewModel.getDataFromServerForDB().observe(viewLifecycleOwner, { handleData(it) })
         runBlocking { loadingFragmentCoroutineScope.launch {
-            viewModel.getCurenciesPairsList()
+            viewModel.getCurrenciesPairsList()
             viewModel.getCrossCourses()
 
              }

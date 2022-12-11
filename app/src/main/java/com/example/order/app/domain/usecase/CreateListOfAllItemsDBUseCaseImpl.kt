@@ -31,7 +31,7 @@ class CreateListOfAllItemsDBUseCaseImpl @Inject constructor(
            }
            }
         listFromDB.forEach { gl->gl.apply {//заполняем отметки избранного в в списке валют
-            with(converters.convertEntityResultToMainList(localRepository1C.getAllDatafromDBResult())){
+            with(converters.convertEntityResultToMainList(localRepository1C.getAllDataFromDBResult())){
               favorite=firstOrNull { it.id1==gl.id1&&it.id2==gl.id2 }?.favorite ?: "0"
             }
         }

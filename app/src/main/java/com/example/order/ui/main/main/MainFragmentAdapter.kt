@@ -10,11 +10,10 @@ import com.example.order.core.App
 import com.example.order.databinding.MainItemBinding
 import kotlinx.android.synthetic.main.main_item.view.*
 
-class MainFragmentAdapter():RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
+class MainFragmentAdapter :RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
     private var appContext= App.getContext()
     private var listItemData: List<ListItem> = listOf()
     private var onItemViewClickListener: MainFragment.OnItemViewClickListener? = null
-    private var resID: Int=0
 
 
     @SuppressLint("NotifyDataSetChanged")

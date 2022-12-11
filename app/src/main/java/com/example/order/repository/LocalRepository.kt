@@ -1,7 +1,7 @@
 package com.example.order.repository
 
 import com.example.order.app.domain.model.ListItem
-import com.example.order.datasource.Room.DatabaseResult.ResultEntity
+import com.example.order.datasource.room.databaseResult.ResultEntity
 
 interface LocalRepository {
     fun putDataFromServerToLocalDatabase(listItemFromServer:List<ListItem>)
@@ -11,7 +11,7 @@ interface LocalRepository {
     fun putDataDBFromListItem(resultListItem:List<ListItem>)
     fun writeFavoriteToDb(resultListItem:List<ListItem>)
     fun insertToDBResultFromResultEntity(data: ResultEntity)
-    fun getAllDatafromDBResult():List<ResultEntity>
+    fun getAllDataFromDBResult():List<ResultEntity>
 
 
 }

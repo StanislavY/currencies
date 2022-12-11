@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -12,11 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.order.R
 import com.example.order.app.domain.model.ListItem
-import com.example.order.app.domain.model.ListItemWithDoubles
 import com.example.order.app.domain.model.SearchItemStorage
 import com.example.order.app.domain.usecase.AppState
-import com.example.order.app.domain.usecase.OperationsWithListsUseCase
-import com.example.order.app.domain.usecase.OperationsWithListsUseCaseImpl
 import com.example.order.core.GlobalConstAndVars
 import com.example.order.databinding.MainFragmentBinding
 import com.google.android.material.tabs.TabLayout
@@ -82,9 +81,10 @@ class MainFragment : Fragment() {
         }
         adapter.setOnItemViewClickListener(object : OnItemViewClickListener {
             override fun onItemViewClick(listItem: ListItem) {
-                viewModel.handleFavoriteButtonClick(listItem)
+
+               viewModel.handleFavoriteButtonClick(listItem)
                 viewModel.makeItemFavoriteInDB(viewModel.getListOfChosenItems())
-                SearchItemStorage.list =viewModel.convertMainListToArrayListItem(GlobalConstAndVars.GLOBAL_LIST)
+                SearchItemStorage.list =viewModel.convertMainListToArrayListItem(viewModel.getGlobalList())
                 updateSearch()
             }
         })
@@ -92,7 +92,7 @@ class MainFragment : Fragment() {
         binding.mainFragmentRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.mainFragmentRecyclerView.adapter = adapter
         viewModel.processAppState().observe(viewLifecycleOwner, { renderList(it) })
-        viewModel.processTheSelectedItem()
+        viewModel.getMainList()
         launchSearchBarListener()
 
 
@@ -104,42 +104,13 @@ class MainFragment : Fragment() {
         if (filterAbc == 0) {
             binding.abcFilter.setImageResource(R.drawable.sort_abc_down)
             filterAbc = 1
-            GlobalConstAndVars.GLOBAL_LIST=listToSort.sortedByDescending { it.id1 }
-           return GlobalConstAndVars.GLOBAL_LIST
+           return viewModel.setGlobalList(listToSort.sortedByDescending { it.id1 })
 
         } else
             filterAbc = 0
         binding.abcFilter.setImageResource(R.drawable.sort_abc_up)
-        GlobalConstAndVars.GLOBAL_LIST=listToSort.sortedBy { it.id1 }
-       return GlobalConstAndVars.GLOBAL_LIST
+       return viewModel.setGlobalList(listToSort.sortedBy { it.id1 })
     }
-
-    fun convertValueToDoubleInListItem(list:List<ListItem>):List<ListItemWithDoubles>{
-
-        return list.map {
-            ListItemWithDoubles(it.id1,
-                it.id2,
-                it.name,
-                it.value.toDouble(),
-                it.secondCurFlag,
-                it.countryFirstCur,
-                it.countrySecondCur,
-                it.favorite)
-        }
-    }
-    fun convertValueToStringInListItem(list:List<ListItemWithDoubles>):List<ListItem>{
-        return list.map {
-            ListItem(it.id1,
-                it.id2,
-                it.name,
-                it.value.toString(),
-                it.secondCurFlag,
-                it.countryFirstCur,
-                it.countrySecondCur,
-                it.favorite)
-        }
-    }
-
 
 
 
@@ -150,14 +121,14 @@ class MainFragment : Fragment() {
         if (filter123 == 0) {
             filter123 = 1
             binding.valueFilter.setImageResource(R.drawable.sort_123_down)
-            GlobalConstAndVars.GLOBAL_LIST=convertValueToStringInListItem(convertValueToDoubleInListItem(listToSort).sortedByDescending { it.value })
-            return GlobalConstAndVars.GLOBAL_LIST
+
+            return  viewModel.setGlobalList(viewModel.convertValueToStringInListItem(viewModel.convertValueToDoubleInListItem(listToSort).sortedByDescending { it.value }))
 
         } else
             filter123 = 0
         binding.valueFilter.setImageResource(R.drawable.sort_123_up)
-        GlobalConstAndVars.GLOBAL_LIST=convertValueToStringInListItem(convertValueToDoubleInListItem(listToSort).sortedBy { it.value })
-        return GlobalConstAndVars.GLOBAL_LIST
+
+        return viewModel.setGlobalList(viewModel.convertValueToStringInListItem(viewModel.convertValueToDoubleInListItem(listToSort).sortedBy { it.value }))
     }
 
 
@@ -166,7 +137,6 @@ class MainFragment : Fragment() {
         val etSearchBar = binding.inputEditText
         val s = etSearchBar.text
         val listToFilter=viewModel.convertArrayListItemToListItem(SearchItemStorage.list)
-
         if (s?.length == 0&&tab_main.selectedTabPosition==0) {
         viewModel.sendDataToList(listToFilter)
             return listToFilter
@@ -260,6 +230,7 @@ class MainFragment : Fragment() {
             }
         }
         }
+
  }
 
 

@@ -1,8 +1,8 @@
-package com.example.order.datasource.Room.DataBaseFrom1C
+package com.example.order.datasource.room.DataBaseFrom1C
 
 import android.database.Cursor
 import androidx.room.*
-import com.example.order.datasource.Room.DatabaseResult.ResultEntity
+import com.example.order.datasource.room.databaseResult.ResultEntity
 
 @Dao
 interface DatabaseFrom1CDAO {

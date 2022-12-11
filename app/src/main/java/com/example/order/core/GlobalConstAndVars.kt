@@ -1,7 +1,6 @@
 package com.example.order.core
 
 import com.example.order.app.domain.model.ListItem
-import com.example.order.datasource.Server.ServerResponseData
 
 object GlobalConstAndVars {
     const val   ITS_NOT_FAVORITE="0"

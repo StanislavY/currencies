@@ -1,9 +1,9 @@
 package com.example.order.repository
 
 import com.example.order.app.domain.model.ListItem
-import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CDAO
-import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
-import com.example.order.datasource.Room.DatabaseResult.ResultEntity
+import com.example.order.datasource.room.DataBaseFrom1C.DatabaseFrom1CDAO
+import com.example.order.datasource.room.DataBaseFrom1C.DatabaseFrom1CEntity
+import com.example.order.datasource.room.databaseResult.ResultEntity
 import com.example.order.app.domain.usecase.ConvertersUseCase
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -65,7 +65,7 @@ class LocalRepositoryImpl @Inject constructor(private val localDataSource: Datab
 
     }
 
-    override fun getAllDatafromDBResult(): List<ResultEntity> {
+    override fun getAllDataFromDBResult(): List<ResultEntity> {
       return  localDataSource.allFromResultDB()
 
     }

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.usecase.*
 import com.example.order.core.GlobalConstAndVars
-import com.example.order.datasource.Server.Retrofit1C
-import com.example.order.datasource.Server.ServerResponseData
-import com.example.order.datasource.Server.ServerResponseDataPairs
+import com.example.order.datasource.server.RetrofitService
+import com.example.order.datasource.server.ServerResponseData
+import com.example.order.datasource.server.ServerResponseDataPairs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,7 +20,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @HiltViewModel
 class LoadingViewModel @Inject constructor (
-    private val retrofit1C:Retrofit1C,
+    private val retrofitService:RetrofitService,
     private val converters: ConvertersUseCase,
     private val createGlobalListCase: CreateListOfAllItemsUseCase = CreateListOfAllItemsDBUseCaseImpl(),
     private val loadFrom1CtoDBCase:LoadDataFromDBUseCase=LoadDataFromDBUseCaseImpl()
@@ -41,11 +41,11 @@ class LoadingViewModel @Inject constructor (
     }
 
 
-    suspend fun getCurenciesPairsList():String  { return suspendCoroutine {
+    suspend fun getCurrenciesPairsList():String  { return suspendCoroutine {
          if (GlobalConstAndVars.API_KEY.isBlank()) {
             AppState.Error(Throwable(GlobalConstAndVars.ERROR_API_KEY_NOT_FOUND))
         } else {
-            retrofit1C.getRetrofit().getDataFrom1C().enqueue(object :
+            retrofitService.getRetrofit().getDataFrom1C().enqueue(object :
                 Callback<ServerResponseData> {
                 override fun onResponse(
                     call: Call<ServerResponseData>,
@@ -81,7 +81,7 @@ class LoadingViewModel @Inject constructor (
          if (GlobalConstAndVars.API_KEY.isBlank()) {
              AppState.Error(Throwable(GlobalConstAndVars.ERROR_API_KEY_NOT_FOUND))
          } else {
-             retrofit1C.getRetrofit().getPairs(pairsList,GlobalConstAndVars.API_KEY).enqueue(object :
+             retrofitService.getRetrofit().getPairs(pairsList,GlobalConstAndVars.API_KEY).enqueue(object :
                  Callback<ServerResponseDataPairs> {
                  override fun onResponse(
                      call: Call<ServerResponseDataPairs>,

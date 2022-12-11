@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Order</string>
+    <string name="app_name">Котировки валют</string>
     <string name="discription">комментарий к картинке</string>
     <string name="hint_search_main_fragment">Валюта или тикер </string>
     <string name="date_of_order">Дата наряда</string>

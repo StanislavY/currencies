@@ -1,9 +1,8 @@
-package com.example.order.datasource.Server
+package com.example.order.datasource.server
 
-import com.example.order.app.domain.model.ListItem
-import com.example.order.core.GlobalConstAndVars
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface API {
 
@@ -18,12 +17,6 @@ interface API {
     @GET("?get=rates")
     fun getPairs(@Query("pairs") pairsList:String,@Query("key") apiKey:String
     ):Call<ServerResponseDataPairs>
-
-    @POST("SET")
-    fun pullDataTo1C(@Body result:List<ListItem>):Call<List<ServerResponseData>>
-
-
-
 
 
 }

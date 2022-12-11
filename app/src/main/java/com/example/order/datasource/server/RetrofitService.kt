@@ -1,20 +1,14 @@
-package com.example.order.datasource.Server
+package com.example.order.datasource.server
 
 
 import com.google.gson.GsonBuilder
-import okhttp3.Credentials
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 
-class Retrofit1C @Inject constructor() {
+class RetrofitService @Inject constructor() {
     private val baseUrl="https://currate.ru/api/"
     fun getRetrofit(): API {
         val retrofit1C =Retrofit.Builder()

@@ -1,16 +1,13 @@
 package com.example.order.app.domain.usecase
 
 import androidx.lifecycle.ViewModel
-import com.example.order.app.domain.model.SearchItem
-import com.example.order.core.GlobalConstAndVars
 import com.example.order.app.domain.model.ListItem
 import com.example.order.app.domain.model.ListItemWithDoubles
-import com.example.order.datasource.Room.DataBaseFrom1C.DatabaseFrom1CEntity
-import com.example.order.datasource.Room.DatabaseResult.ResultEntity
-import com.example.order.datasource.Server.ServerResponseData
-import java.util.*
+import com.example.order.app.domain.model.SearchItem
+import com.example.order.core.GlobalConstAndVars
+import com.example.order.datasource.room.DataBaseFrom1C.DatabaseFrom1CEntity
+import com.example.order.datasource.room.databaseResult.ResultEntity
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 open class ConvertersUseCase @Inject constructor() : ViewModel() {
 
@@ -109,6 +106,31 @@ open class ConvertersUseCase @Inject constructor() : ViewModel() {
 
 
         return databaseFrom1CEntity
+    }
+     fun convertValueToDoubleInListItem(list:List<ListItem>):List<ListItemWithDoubles>{
+
+        return list.map {
+            ListItemWithDoubles(it.id1,
+                it.id2,
+                it.name,
+                it.value.toDouble(),
+                it.secondCurFlag,
+                it.countryFirstCur,
+                it.countrySecondCur,
+                it.favorite)
+        }
+    }
+    fun convertValueToStringInListItem(list:List<ListItemWithDoubles>):List<ListItem>{
+        return list.map {
+            ListItem(it.id1,
+                it.id2,
+                it.name,
+                it.value.toString(),
+                it.secondCurFlag,
+                it.countryFirstCur,
+                it.countrySecondCur,
+                it.favorite)
+        }
     }
 
 

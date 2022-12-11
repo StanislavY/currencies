@@ -1,4 +1,4 @@
-package com.example.order.datasource.Room.DatabaseResult
+package com.example.order.datasource.room.databaseResult
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

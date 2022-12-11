@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.order.app.domain.model.ListItem
+import com.example.order.app.domain.model.ListItemWithDoubles
 import com.example.order.app.domain.model.SearchItem
 import com.example.order.app.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +21,8 @@ open class MainViewModel @Inject constructor (
 ) : ViewModel() {
     private val listOfChosenItems:OperationsWithListsUseCase=OperationsWithListsUseCaseImpl()
     private val createLists: OperationsWithListsUseCase = OperationsWithListsUseCaseImpl()
-    private val makeResultCase: FavoriteLogicUseCase = FavoriteLogicUseCasempl()
-    private val liveDatatoObserve: MutableLiveData<AppState> = MutableLiveData()
+    private val makeResultCase: FavoriteLogicUseCase = FavoriteLogicUseCaseImpl()
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
 
     private val converters: ConvertersUseCase = ConvertersUseCase()
 
@@ -30,20 +31,20 @@ open class MainViewModel @Inject constructor (
 
 
     fun processAppState(): LiveData<AppState> {
-        liveDatatoObserve.value = AppState.Loading(null)
-        return liveDatatoObserve
+        liveDataToObserve.value = AppState.Loading(null)
+        return liveDataToObserve
     }
 
 
-    fun processTheSelectedItem() = sendDataToList()
+    fun getMainList() = sendDataToList()
 
     private fun sendDataToList() {
-        viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
+        viewModelCoroutineScope.launch {   liveDataToObserve.postValue(
             AppState.Success(createLists.executeGetMainList(
            ))) }
     }
    fun sendDataToList(list:List<ListItem>) {
-        viewModelCoroutineScope.launch {   liveDatatoObserve.postValue(
+        viewModelCoroutineScope.launch {   liveDataToObserve.postValue(
             AppState.Success(list)) }
     }
 
@@ -55,7 +56,17 @@ open class MainViewModel @Inject constructor (
         return converters.convertItemStorageToListItem(itemList)
 
     }
-    fun handleFavoriteButtonClick(listItem:ListItem){
+
+
+    fun convertValueToDoubleInListItem(list:List<ListItem>):List<ListItemWithDoubles>{
+        return  converters.convertValueToDoubleInListItem(list)
+    }
+    fun convertValueToStringInListItem(list:List<ListItemWithDoubles>):List<ListItem>{
+
+        return converters.convertValueToStringInListItem(list)
+    }
+
+     fun handleFavoriteButtonClick(listItem:ListItem){
         makeResultCase.executeAddingToFavorites(listItem)
 
     }
@@ -65,12 +76,26 @@ open class MainViewModel @Inject constructor (
 
     }
     fun getListOfChosenItems():MutableList<ListItem>{
-        var list: MutableList<ListItem> = mutableListOf()
-        viewModelCoroutineScope.launch {
-          list=  listOfChosenItems.executeGetChosenItems() }
-        return list
+
+
+        return listOfChosenItems.executeGetChosenItems()
 
     }
+
+    fun setGlobalList(list:List<ListItem>):List<ListItem>{
+
+
+        return listOfChosenItems.executeSetMainList(list)
+
+    }
+    fun getGlobalList():List<ListItem>{
+
+         return    listOfChosenItems.executeGetMainList()
+
+
+    }
+
+
 
 
 }
